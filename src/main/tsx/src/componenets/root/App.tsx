@@ -1,27 +1,43 @@
-import React, { useEffect, useState } from "react";
-import Menu from "./Menu";
+import React, { useState, useEffect } from "react";
+import { Toast } from "react-bootstrap";
+import { UserProps } from "../../types/Props";
+import { addNewUser, loginUser} from "../../utils/MiddleEnd";
+import { UserPage } from "../user/UserPage";
+import HomeScreen from "./HomeScreen";
 
-function App() {
-  const [users, setUsers] = useState([]);
+function App(): JSX.Element {
+  const [showToast, setShowToast] = useState(false);
 
-  useEffect(() => {
-    fetch("/user")
-      .then((response) => response.json())
-      .then((data) => setUsers(data));
-  }, []);
+  async function loginOrSignup (args: UserProps) {
+    console.log(args);
+    if (args.operation === "add") {
+      addNewUser(args);
+    }
+    else if (args.operation === 'login') {
+      const result = await loginUser(args);
+      if (typeof result !== 'string'){
+        setPage(<HomeScreen/>)
+      }
+      else {
+        alert(result);
+      }
+      console.log('in app.tsx')
+      console.log(result);
+    }
+  };
+
+  const [page, setPage] = useState(
+    <UserPage login={true} submitFunc={loginOrSignup} />
+  );
   return (
-    <div>
-      <h2>welcome to the pool website!</h2>
-      <Menu/>
-      <div>
-        <p>users</p>
-        <ul>
-          {users.map((user) => {
-            return <li>{user}</li>;
-          })}
-        </ul>
-      </div>
-    </div>
+    <>
+      {page}
+      {showToast ? (
+        <Toast onClose={() => setShowToast(false)} autohide={true}>
+          <Toast.Body>Hey! thanks for signing up, your application is being reviewed by Lou!</Toast.Body>
+        </Toast>
+      ) : null}
+    </>
   );
 }
 
