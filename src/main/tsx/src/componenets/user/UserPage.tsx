@@ -1,11 +1,10 @@
-import { userInfo } from "os";
 import React, { useState } from "react";
 import { UserProps } from "../../types/Props";
 
-export function UserPage(props: {
+export const UserPage = (props: {
   login: boolean;
   submitFunc: Function;
-}): JSX.Element {
+}): JSX.Element => {
   const [newUser, setNewUser] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,18 +12,13 @@ export function UserPage(props: {
   const [firstname, setFirstname] = useState("");
   const [phonenumber, setPhonenumber] = useState("");
 
-  const signupfields: JSX.Element = (
-    <>
-      <input type="password" placeholder="confirm your password" />
-      <br />
-    </>
-  );
   const editFields: JSX.Element = (
     <>
       <input
         type="text"
         placeholder="first name"
         value={firstname}
+        required
         onChange={(e) => setFirstname(e.target.value)}
       />
       <br />
@@ -32,6 +26,7 @@ export function UserPage(props: {
         type="text"
         placeholder="last name"
         value={lastname}
+        required
         onChange={(e) => setLastname(e.target.value)}
       />
       <br />
@@ -39,40 +34,36 @@ export function UserPage(props: {
         type="tel"
         placeholder="phone number"
         value={phonenumber}
-        pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}'
+        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+        maxLength={13}
+        title="use dashes ... 508-821-3222"
+        required
         onChange={(e) => setPhonenumber(e.target.value)}
       />
       <br />
     </>
   );
-  const nonEditFields: JSX.Element = (
-    <>
-      <a onClick={() => setNewUser(!newUser)}>
-        {newUser ? "Use an existing account" : "Create a new account"}
-      </a>
-      <br />
-    </>
-  );
 
-  const handleSubmit = () => {
-    console.log('button hit');
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    console.log("form submit");
     const args: UserProps = {
       email: email,
-      phonenumber: phonenumber,
+      phonenumber: phonenumber.replaceAll("-", ""),
       password: password,
       firstname: firstname,
       lastname: lastname,
       operation: newUser ? "add" : props.login ? "login" : "edit",
     };
     props.submitFunc(args);
-  };
+  }
 
   return (
-    <>
+    <form onSubmit={(e) => handleSubmit(e)}>
       <input
         type="email"
         placeholder="email"
-        className="required"
+        required
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
@@ -80,18 +71,26 @@ export function UserPage(props: {
       <input
         type="password"
         placeholder="password"
+        required
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
       <br />
-      {newUser ? signupfields : null}
+      {newUser ? (
+        <input type="password" placeholder="confirm your password" required />
+      ) : null}
       {newUser || !props.login ? editFields : null}
-      {props.login ? nonEditFields : null}
+      {props.login ? (
+        <input
+          type="button"
+          onClick={() => setNewUser(!newUser)}
+          value={newUser ? "Use an existing account" : "Create a new account"}
+        />
+      ) : null}
       <input
         type="submit"
-        onClick={() => handleSubmit()}
         value={newUser ? "Sign up" : props.login ? "Log in" : "Update info"}
       />
-    </>
+    </form>
   );
-}
+};

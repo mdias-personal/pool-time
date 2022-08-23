@@ -6,3 +6,8 @@ export interface UserProps {
   phonenumber: String;
   operation: String;
 }
+
+export interface EventProps {
+ date: Date;
+ guests: [UserProps];  
+}

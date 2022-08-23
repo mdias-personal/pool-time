@@ -3,23 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Toast } from "react-bootstrap";
 import Menu from "./Menu";
 
-function HomeScreen() {
+function HomeScreen(props: any) {
   const [users, setUsers] = useState([]);
   const [showToast, setShowToast] = useState(false);
 
-  useEffect(() => {
-    fetch("/users")
-      .then((response) => response.json())
-      .then((data) => {
-          setUsers(data.map((user: {fname: String}) => {
-            return user.fname;
-          }))
-      });
-  }, []);
   return (
     <div>
-      <h2>welcome to the pool website!</h2>
       <Menu setShowToast={setShowToast} />
+      <h2>welcome to the pool website!</h2>
       <div>
         <p>users</p>
         <ul>

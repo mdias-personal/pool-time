@@ -23,11 +23,11 @@ final public class UserService {
     }
 
     public List<User> searchUsers(UserSearchRequestDTO request) {
-        if (request.isEmpty()) {
-            return userRepo.findAll();
-        } else {
-            return userRepo.findAll(getExampleUser(request));
-        }
+        List<User> users = request.isEmpty() ? userRepo.findAll() : userRepo.findAll(getExampleUser(request));
+        users.forEach(user -> {
+            user.setPword(null);
+        });
+        return users;
     }
 
     private Example<User> getExampleUser(UserSearchRequestDTO request) {
@@ -50,13 +50,16 @@ final public class UserService {
         if (existingUser.isPresent()) {
             return null;
         } else {
-            return userRepo.save(new User(
+            User user = new User(
                     UUID.randomUUID(),
                     request.getFname(),
                     request.getLname(),
                     request.getPnumber(),
                     request.getEmail(),
-                    request.getPword()));
+                    request.getPword());
+            user.setAdmin(false);
+            user.setApproved(false);
+            return userRepo.save(user);
         }
     }
 

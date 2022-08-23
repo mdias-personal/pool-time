@@ -1,7 +1,8 @@
+import { UNEXPECT_ALERT_TEXT } from "../types/Constants";
 import { UserProps } from "../types/Props";
 
-export function addNewUser(args: UserProps): void {
-  fetch("/users", {
+export async function addNewUser(args: UserProps) {
+  return fetch("/users", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -9,32 +10,29 @@ export function addNewUser(args: UserProps): void {
       lname: args.lastname,
       email: args.email,
       pnumber: args.phonenumber,
+      pword: args.password,
     }),
   })
     .then((response) => response.json())
-    .then((data) => console.log(data));
+    .catch((error) => {
+      console.log(error);
+      alert(UNEXPECT_ALERT_TEXT);
+    });
 }
-export function loginUser(args: UserProps) {
-  return fetch(
-    `/users/login?email=${args.email}&password=${args.password}`
-  )
+export async function loginUser(args: UserProps) {
+  return fetch(`/users/login?email=${args.email}&password=${args.password}`)
     .then((response) => {
-        if(response.ok) {
-            return response.json();
-        }
-        else {
-            if(response.status === 401) {
-                return "email/password combo was either not found or was incorrect!";
-            }
-            else if(response.status === 403) {
-                return "correct info, but you haven't been approved by Lou yet!";
-            }
-        }
+      if (response.ok) {
+        return response.json();
+      } else {
+        return response.status;
+      }
     })
     .then((data) => {
       return data;
     })
     .catch((error) => {
       console.log(error);
+      alert(UNEXPECT_ALERT_TEXT);
     });
 }

@@ -4,6 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/main/**/built/
 !**/src/test/**/target/
+src/main/resources/static/built/bundle.js
 
 ### STS ###
 .apt_generated

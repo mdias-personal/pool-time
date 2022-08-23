@@ -5,9 +5,50 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-align: center;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Full-width input fields */
+input[type=text], input[type=password], input[type=tel], input[type=email] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+input[type=button],input[type=submit] {
+  background-color: #0489aa;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width:50%;
+}
+
+input[type=button]:hover,input[type=submit] {
+  opacity: 0.8;
+}
+
+form {
+  display: inline-block;
+  width: 40%;
+  margin-top:10%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+div.banner {
+  background: #0489aa;
+  color: white;
+  font-size: 30px;
 }
