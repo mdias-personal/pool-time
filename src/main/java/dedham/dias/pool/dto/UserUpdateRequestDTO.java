@@ -4,6 +4,8 @@ import javax.validation.constraints.NotNull;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
+import java.util.UUID;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
@@ -14,20 +16,18 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-final public class UserCreationRequestDTO {
-    @NotNull
+final public class UserUpdateRequestDTO {
     private String fname;
-    @NotNull
     private String lname;
-    @NotNull
     private String pnumber;
-    @NotNull
     private String email;
-    @NotNull
     private String pword;
+    private int poolScore;
+    private Boolean approved;
+    private String oldPword;
 
     @Override
     public String toString() {
-        return "UserCreationRequestDTO :\n" + this.fname + "\n " + this.lname + "\n" + this.pnumber + "\n" + this.email + "\n" + this.pword;
+        return "UserUpdateRequestDTO :\n" + this.fname + "\n " + this.lname + "\n" + this.pnumber + "\n" + this.email + "\n" + this.pword;
     }
 }

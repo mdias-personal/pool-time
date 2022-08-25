@@ -1,17 +1,16 @@
 package dedham.dias.pool.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 final public class UserSearchRequestDTO {
     private String fName;
     private String lName;
     private String pnumber;
-
-    public UserSearchRequestDTO() {
-    }
 
     @Override
     public String toString() {

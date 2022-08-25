@@ -1,1 +1,1 @@
-INSERT INTO pooluser (id, fName,lName,email,pnumber,poolScore,pword, approved) VALUES ('a24f229e-37a8-42f8-9b6e-877303c8dfcb', 'Mike', 'Dias', 'mdias214@gmail.com', '7819754424', 0, 'louie8080', true);
+INSERT INTO pooluser (id, fName,lName,email,pnumber,poolScore,pword, approved, admin) VALUES ('a24f229e-37a8-42f8-9b6e-877303c8dfcb', 'Mike', 'Dias', 'mdias214@gmail.com', '7819754424', 0, 'louie8080', true, true);

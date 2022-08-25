@@ -12,50 +12,29 @@ export const UserPage = (props: {
   const [firstname, setFirstname] = useState("");
   const [phonenumber, setPhonenumber] = useState("");
 
-  const editFields: JSX.Element = (
-    <>
-      <input
-        type="text"
-        placeholder="first name"
-        value={firstname}
-        required
-        onChange={(e) => setFirstname(e.target.value)}
-      />
-      <br />
-      <input
-        type="text"
-        placeholder="last name"
-        value={lastname}
-        required
-        onChange={(e) => setLastname(e.target.value)}
-      />
-      <br />
-      <input
-        type="tel"
-        placeholder="phone number"
-        value={phonenumber}
-        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-        maxLength={13}
-        title="use dashes ... 508-821-3222"
-        required
-        onChange={(e) => setPhonenumber(e.target.value)}
-      />
-      <br />
-    </>
-  );
-
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log("form submit");
     const args: UserProps = {
       email: email,
       phonenumber: phonenumber.replaceAll("-", ""),
       password: password,
       firstname: firstname,
       lastname: lastname,
-      operation: newUser ? "add" : props.login ? "login" : "edit",
+      operation: newUser ? "add" : props.login ? "login" : "edit"
     };
     props.submitFunc(args);
+  }
+  function formatNumber(value: string): void {
+    value.replaceAll(/D/g, '');
+    [3, 7].map((d) => {
+      if (value.length > d && value.charAt(d) !== "-") {
+        value = value.substring(0, d) + "-" + value.substring(d, 12);
+      }
+    });
+    if(value.length >= 12) {
+      value = value.substring(0,12);
+    }
+    setPhonenumber(value);
   }
 
   return (
@@ -79,12 +58,43 @@ export const UserPage = (props: {
       {newUser ? (
         <input type="password" placeholder="confirm your password" required />
       ) : null}
-      {newUser || !props.login ? editFields : null}
+      {newUser || !props.login ? (
+        <>
+          <input
+            type="text"
+            placeholder="first name"
+            value={firstname}
+            required
+            onChange={(e) => setFirstname(e.target.value)}
+          />
+          <br />
+          <input
+            type="text"
+            placeholder="last name"
+            value={lastname}
+            required
+            onChange={(e) => setLastname(e.target.value)}
+          />
+          <br />
+          <input
+            type="tel"
+            placeholder="phone number"
+            value={phonenumber}
+            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            maxLength={13}
+            title="use dashes ... 508-821-3222"
+            onKeyUp={(e) => formatNumber(e.currentTarget.value)}
+            required
+            onChange={(e) => setPhonenumber(e.target.value)}
+          />
+          <br />
+        </>
+      ) : null}
       {props.login ? (
         <input
           type="button"
           onClick={() => setNewUser(!newUser)}
-          value={newUser ? "Use an existing account" : "Create a new account"}
+          value={newUser ? "Existing user?" : "Sign up"}
         />
       ) : null}
       <input

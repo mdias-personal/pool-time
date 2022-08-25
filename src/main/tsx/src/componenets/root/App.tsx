@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { AWAITING_APPROVAL_RESPONSE, BAD_LOGIN_RESPONSE } from "../../types/Constants";
+import React, { useState } from "react";
+import {
+  AWAITING_APPROVAL_RESPONSE,
+  BAD_LOGIN_RESPONSE,
+} from "../../types/Constants";
 import { UserProps } from "../../types/Props";
-import { addNewUser, loginUser } from "../../utils/MiddleEnd";
+import {
+  addNewUser,
+  convertUserFromBackToFront,
+  loginUser,
+} from "../../utils/MiddleEnd";
 import { UserPage } from "../user/UserPage";
 import { WaitingApproval } from "../user/WaitingApproval";
 import HomeScreen from "./HomeScreen";
@@ -17,7 +24,7 @@ function App(): JSX.Element {
     } else if (args.operation === "login") {
       const result = await loginUser(args);
       if (typeof result !== "number") {
-        setPage(<HomeScreen />);
+        setPage(<HomeScreen {...convertUserFromBackToFront(result)} />);
       } else {
         if (result === AWAITING_APPROVAL_RESPONSE) {
           setPage(<WaitingApproval message="successful login attempt!" />);

@@ -1,24 +1,18 @@
 import { userInfo } from "os";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Toast } from "react-bootstrap";
+import { UserProps } from "../../types/Props";
+import EventFeed from "./EventFeed";
 import Menu from "./Menu";
 
-function HomeScreen(props: any) {
-  const [users, setUsers] = useState([]);
+function HomeScreen(user: UserProps) {
   const [showToast, setShowToast] = useState(false);
+  const [mainSection, setMainSection] = useState(<EventFeed {... user} />);
 
   return (
     <div>
-      <Menu setShowToast={setShowToast} />
-      <h2>welcome to the pool website!</h2>
-      <div>
-        <p>users</p>
-        <ul>
-          {users.map((user) => {
-            return <li>{user}</li>;
-          })}
-        </ul>
-      </div>
+      <Menu user={user} setShowToast={setShowToast} setMainSection={setMainSection} />
+      {mainSection}
       {showToast ? (
         <Toast onClose={() => setShowToast(false)} autohide={true}>
           <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
