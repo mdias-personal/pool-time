@@ -7,7 +7,7 @@ import { UserRequest } from './UserRequest';
 export const AdminPage = () => {
   const [timeRequests, setTimeRequests] = useState<EventProps[]>([]);
   const [userRequests, setUserRequests] = useState<UserProps[]>([]);
-  const [pageReload, setPageReload] = useState(false);
+  const [pageReload, setPageReload] = useState(true);
   useEffect(() => {
     fetch('/users')
       .then((response) => response.json())
@@ -18,8 +18,9 @@ export const AdminPage = () => {
             .filter((user: UserProps) => !user.approved)
         );
       });
-  }, []);
+  }, [pageReload]);
   return (
+    <div className='leftdiv'>
     <Accordion>
       <Accordion.Item eventKey="0">
         <Accordion.Header>
@@ -32,7 +33,8 @@ export const AdminPage = () => {
                 <li>
                   <UserRequest
                     request={request}
-                    pageReload={() => setPageReload(!pageReload)}
+                    pageReload={pageReload}
+                    setPageReload={setPageReload}
                   />
                 </li>
               );
@@ -41,7 +43,7 @@ export const AdminPage = () => {
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey="1">
-        <Accordion.Header>Time Requests</Accordion.Header>
+        <Accordion.Header>Time Requests (0)</Accordion.Header>
         <Accordion.Body>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
@@ -53,5 +55,6 @@ export const AdminPage = () => {
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>
+    </div>
   );
 };

@@ -38,13 +38,6 @@ input[type=button]:hover,input[type=submit] {
   opacity: 0.8;
 }
 
-input[type=button].approve {
-  background-color: rgb(36, 117, 56);
-}
-input[type=button].deny {
-  background-color: rgba(248, 28, 39, 0.637);
-}
-
 form {
   display: inline-block;
   width: 40%;
@@ -58,6 +51,18 @@ div.banner {
   background: #0489aa;
   color: white;
   font-size: 30px;
+}
+div.leftdiv {
+  width: 50%;
+  float: left;
+}
+p {
+  display: inline-block;
+  text-align: left;
+  margin-right: 10px;
+}
+li {
+  text-align: left;
 }
 /* mobile specific properties */
 @media only screen and (max-width: 768px) {

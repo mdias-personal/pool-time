@@ -5,6 +5,9 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { UserProps } from '../../types/Props';
 import { AdminPage } from '../admin/AdminPage';
+import CalendarPage from '../calendar/Calendar';
+import RequestPage from '../timerequest/RequestPage';
+import { UserPage } from '../user/UserPage';
 import EventFeed from './EventFeed';
 
 function Menu(props: {
@@ -15,7 +18,7 @@ function Menu(props: {
   console.log(props.user);
   return (
     <>
-      <Navbar bg="light" expand="xl" className="mb-3">
+      <Navbar bg="light" expand="xl" className="mb-3" collapseOnSelect={true}>
         <Container fluid>
           <Navbar.Brand>&#127946;</Navbar.Brand>
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-xl`} />
@@ -26,7 +29,7 @@ function Menu(props: {
           >
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id={`offcanvasNavbarLabel-expand-xl`}>
-                Offcanvas
+                Menu
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
@@ -38,12 +41,38 @@ function Menu(props: {
                 >
                   Home
                 </Nav.Link>
-                <Nav.Link href="#action2">Link</Nav.Link>
+                <Nav.Link
+                  onClick={() =>
+                    props.setMainSection(<RequestPage {...props.user} />)
+                  }
+                >
+                  Time Requests
+                </Nav.Link>
+                <Nav.Link
+                  onClick={() =>
+                    props.setMainSection(<CalendarPage {...props.user} />)
+                  }
+                >
+                  Calendar
+                </Nav.Link>
                 <NavDropdown
                   title="Dropdown"
                   id={`offcanvasNavbarDropdown-expand-xl`}
                 >
-                  <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+                  <NavDropdown.Item
+                    onClick={() => {
+                      props.setMainSection(
+                        <UserPage
+                          login={false}
+                          submitFunc={() =>
+                            console.log('we need a submit function')
+                          }
+                        />
+                      );
+                    }}
+                  >
+                    User Page
+                  </NavDropdown.Item>
                   {props.user.admin ? (
                     <NavDropdown.Item
                       onClick={() => props.setMainSection(<AdminPage />)}
@@ -52,6 +81,7 @@ function Menu(props: {
                     </NavDropdown.Item>
                   ) : null}
                   <NavDropdown.Divider />
+                  <NavDropdown.Item>Sign out</NavDropdown.Item>
                   <NavDropdown.Item onClick={() => props.setShowToast(true)}>
                     Show Toast
                   </NavDropdown.Item>
