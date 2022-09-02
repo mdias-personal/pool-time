@@ -30,7 +30,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Tag(name = "USERS", description = "Controllers the users of the website")
+@Tag(name = "USERS", description = "Controls the users of the website")
 @RestController("users-controller")
 @RequestMapping(path = "/users")
 public class UserController {

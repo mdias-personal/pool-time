@@ -103,7 +103,6 @@ final public class UserService {
         } else {
             return null;
         }
-
     }
 
     public UUID deleteUser(@Valid UUID userid) {

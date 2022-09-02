@@ -20,7 +20,6 @@ export const AdminPage = () => {
       });
   }, [pageReload]);
   return (
-    <div className='leftdiv'>
     <Accordion>
       <Accordion.Item eventKey="0">
         <Accordion.Header>
@@ -55,6 +54,5 @@ export const AdminPage = () => {
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>
-    </div>
   );
 };

@@ -1,10 +1,13 @@
 package dedham.dias.pool.model;
 
+import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.Getter;
@@ -46,4 +49,7 @@ public class User {
     private int poolScore;
     private Boolean approved;
     private Boolean admin;
+   
+    @OneToMany
+    private Set<Appointment> ownAppointments;
 }

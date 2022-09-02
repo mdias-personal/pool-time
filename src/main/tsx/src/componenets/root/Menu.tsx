@@ -18,7 +18,7 @@ function Menu(props: {
   console.log(props.user);
   return (
     <>
-      <Navbar bg="light" expand="xl" className="mb-3" collapseOnSelect={true}>
+      <Navbar bg="light" expand="xl" className="mb-3" collapseOnSelect>
         <Container fluid>
           <Navbar.Brand>&#127946;</Navbar.Brand>
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-xl`} />

@@ -3,8 +3,6 @@ spring:
     init:
       mode: always
   jpa:
-    hibernate:
-      ddl-auto: none
     show-sql: true
   datasource:
     url: "jdbc:postgresql://localhost:5432/"

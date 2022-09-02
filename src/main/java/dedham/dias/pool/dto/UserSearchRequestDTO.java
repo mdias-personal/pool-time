@@ -14,7 +14,7 @@ final public class UserSearchRequestDTO {
 
     @Override
     public String toString() {
-        return "UserCreationRequestDTO :\n" + this.fName + "\n " + this.lName + "\n" + this.pnumber;
+        return "UserSeachRequestDTO :\n" + this.fName + "\n " + this.lName + "\n" + this.pnumber;
     }
 
     public boolean isEmpty() {
