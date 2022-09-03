@@ -49,7 +49,4 @@ public class User {
     private int poolScore;
     private Boolean approved;
     private Boolean admin;
-   
-    @OneToMany
-    private Set<Appointment> ownAppointments;
 }

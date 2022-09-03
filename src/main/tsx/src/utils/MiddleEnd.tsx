@@ -1,5 +1,5 @@
 import { UNEXPECT_ALERT_TEXT } from '../types/Constants';
-import { UserProps } from '../types/Props';
+import { EventProps, UserProps } from '../types/Props';
 
 export async function addNewUser(args: UserProps) {
   return fetch('/users', {
@@ -79,4 +79,13 @@ export async function deleteUser(args: UserProps) {
       console.log(error);
       alert(UNEXPECT_ALERT_TEXT);
     });
+}
+
+export function convertApptFromBackToFront(appt: any): EventProps {
+  return {
+    id: appt.id,
+    approved: appt.approved,
+    start: appt.start,
+    end: appt.end
+  } as EventProps;
 }

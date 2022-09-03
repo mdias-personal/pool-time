@@ -12,6 +12,8 @@ export interface UserProps {
 }
 
 export interface EventProps {
- date: Date;
- guests: [UserProps];  
+ id: String;
+ start: Date;
+ end: Date;
+ approved: Boolean;
 }
