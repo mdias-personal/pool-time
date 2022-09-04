@@ -19,7 +19,6 @@ const RequestForm: React.FC<RequestFormProps> = ({
   setPageReload,
   request
 }: RequestFormProps) => {
-  console.log(request?.start);
   const [day, setDay] = useState('');
   //  request?.start ? new Date(request.start).toLocaleDateString : ''
   //);
@@ -38,10 +37,10 @@ const RequestForm: React.FC<RequestFormProps> = ({
     } as EventProps;
     const result = request
       ? await updateAppt({ ...args, approved: false, id: request.id })
-      : addNewAppt(args);
+      : await addNewAppt(args);
     console.log(result);
-    setShowModal(false);
     setPageReload(!pageReload);
+    setShowModal(false);
   }
 
   return (

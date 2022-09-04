@@ -89,7 +89,7 @@ div.main-section {
 
 .btn-primary:hover {
   background-color: $hover !important;
-  border-color:  #0dc5fd !important;
+  border-color: #0dc5fd !important;
 }
 
 .btn-outline-primary,
@@ -102,7 +102,7 @@ div.main-section {
 
 .btn-outline-primary:hover {
   background-color: $primary !important;
-  color:#fff !important;
+  color: #fff !important;
   border-color: $primary !important;
 }
 
@@ -114,5 +114,18 @@ div.main-section {
 @media only screen and (max-width: 768px) {
   form {
     width: 80%;
+  }
+  table thead {
+    display: none;
+  }
+  table td {
+    display: flex;
+  }
+
+  table td::before {
+    content: attr(aria-label);
+    font-weight: bold;
+    width: 120px;
+    min-width: 120px;
   }
 }

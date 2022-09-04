@@ -15,14 +15,14 @@ const TimeRequestTable: React.FC<TimeRequestTableProps> = ({
 }: TimeRequestTableProps) => {
   return (
     <table>
-      <tr>
+      <thead>
         <th>Day</th>
         <th>Start</th>
         <th>End</th>
         <th>Guests</th>
         <th>Status</th>
         <th>Actions</th>
-      </tr>
+      </thead>
       {requests.map((request) => {
         return (
           <TimeRequest

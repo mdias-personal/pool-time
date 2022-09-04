@@ -31,11 +31,11 @@ const UserRequest: React.FC<UserRequestProps> = ({
   }
   return (
     <tr>
-      <td>{request.firstname}</td>
-      <td>{request.lastname}</td>
-      <td>{request.email}</td>
-      <td>{request.phonenumber}</td>
-      <td>
+      <td aria-label='First Name'>{request.firstname}</td>
+      <td aria-label='Last Name'>{request.lastname}</td>
+      <td aria-label='Email'>{request.email}</td>
+      <td aria-label='Phone Number'>{request.phonenumber}</td>
+      <td aria-label='Actions'>
         <Button onClick={denyUser} variant='outline-danger'>
           Deny
         </Button>

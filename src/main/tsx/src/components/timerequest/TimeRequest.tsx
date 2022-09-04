@@ -35,12 +35,12 @@ const TimeRequest: React.FC<TimeRequestProps> = ({
   }
   return (
     <tr>
-      <td>{new Date(request.start).toLocaleDateString()}</td>
-      <td>{new Date(request.start).toLocaleTimeString()}</td>
-      <td>{new Date(request.end).toLocaleTimeString()}</td>
-      <td>{request.ownerid}</td>
-      <td>{request.approved ? 'upcoming' : 'awaiting approval'}</td>
-      <td>
+      <td aria-label='Day'>{new Date(request.start).toLocaleDateString()}</td>
+      <td aria-label='Start'>{new Date(request.start).toLocaleTimeString()}</td>
+      <td aria-label='End'>{new Date(request.end).toLocaleTimeString()}</td>
+      <td aria-label='Guests'>{request.ownerid}</td>
+      <td aria-label='Status'>{request.approved ? 'upcoming' : 'awaiting approval'}</td>
+      <td aria-label='Actions'>
         <Button onClick={cancelRequest} variant='outline-danger'>
           {admin ? 'Deny' : 'Cancel'}
         </Button>
