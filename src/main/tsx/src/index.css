@@ -23,25 +23,10 @@ input[type=text], input[type=password], input[type=tel], input[type=email] {
   box-sizing: border-box;
 }
 
-/* Set a style for all buttons */
-input[type=button],input[type=submit] {
-  background-color: #0489aa;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width:50%;
-}
-
-input[type=button]:hover,input[type=submit] {
-  opacity: 0.8;
-}
-
 form {
   display: inline-block;
   width: 40%;
-  margin-top:10%;
+  margin-top: 5%;
   margin-left: auto;
   margin-right: auto;
   text-align: left;
@@ -50,11 +35,7 @@ form {
 div.banner {
   background: #0489aa;
   color: white;
-  font-size: 30px;
-}
-div.leftdiv {
-  width: 50%;
-  float: left;
+  font-size: 48px;
 }
 p {
   display: inline-block;
@@ -63,6 +44,22 @@ p {
 }
 li {
   text-align: left;
+}
+
+button {
+  float: right;
+  margin-right: .5em;
+  position: relative;
+}
+
+div.main-section {
+  padding: 2em;
+}
+
+/* bootstrap overrides */
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited, .btn-primary:focus {
+  background-color: #0489aa !important;
+  border-color: #0489aa !important;
 }
 /* mobile specific properties */
 @media only screen and (max-width: 768px) {

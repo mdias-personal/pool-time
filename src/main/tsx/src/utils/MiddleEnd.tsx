@@ -50,18 +50,22 @@ export function convertUserFromBackToFront(user: any): UserProps {
   } as UserProps;
 }
 
-export async function updateUser(args: UserProps) {
-  return fetch(`/users/${args.id}`, {
+export async function updateUser(user: UserProps, approve?: Boolean) {
+  let args = {
+    fname: user.firstname,
+    lname: user.lastname,
+    email: user.email,
+    pnumber: user.phonenumber,
+    poolscore: user.poolscore
+  } as any;
+  if (approve) {
+    args['approved'] = true;
+    args['sendApprovalAlert'] = true;
+  }
+  return fetch(`/users/${user.id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      fname: args.firstname,
-      lname: args.lastname,
-      email: args.email,
-      pnumber: args.phonenumber,
-      poolscore: args.poolscore,
-      approved: args.approved
-    })
+    body: JSON.stringify(args)
   })
     .then((response) => response.ok)
     .catch((error) => {

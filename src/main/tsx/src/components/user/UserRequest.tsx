@@ -10,10 +10,13 @@ interface UserRequestProps {
   setPageReload: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const UserRequest : React.FC<UserRequestProps> = ({request, pageReload, setPageReload}: UserRequestProps) => {
+const UserRequest: React.FC<UserRequestProps> = ({
+  request,
+  pageReload,
+  setPageReload
+}: UserRequestProps) => {
   async function approveUser() {
-    request.approved = true;
-    const result = await updateUser(request);
+    const result = await updateUser(request, true);
     if (!result) {
       alert(UNEXPECT_ALERT_TEXT);
     }
@@ -28,18 +31,12 @@ const UserRequest : React.FC<UserRequestProps> = ({request, pageReload, setPageR
   }
   return (
     <>
-      <p>
-        {request.firstname +
-          ' ' +
-          request.lastname +
-          ': ' +
-          request.email}
-      </p>
-      <Button onClick={approveUser} variant="outline-success">
-        Approve
-      </Button>
-      <Button onClick={denyUser} variant="outline-danger">
+      <p>{request.firstname + ' ' + request.lastname + ': ' + request.email}</p>
+      <Button onClick={denyUser} variant='outline-danger'>
         Deny
+      </Button>
+      <Button onClick={approveUser} variant='outline-success'>
+        Approve
       </Button>
     </>
   );

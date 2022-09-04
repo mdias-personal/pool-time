@@ -17,6 +17,7 @@ final public class ApptUpdateRequestDTO {
     private LocalDate start;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDate end;
+    private Boolean sendApprovalAlert;
 
     @Override
     public String toString() {

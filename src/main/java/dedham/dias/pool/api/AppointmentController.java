@@ -72,7 +72,7 @@ public class AppointmentController {
 
     @Operation(summary = "Updates an appointment", description = "Updates the appointment with any of the fields given")
     @PutMapping(path = "/{apptid}")
-    HttpStatus updateUser(@RequestBody @Valid final ApptUpdateRequestDTO request,
+    HttpStatus updateAppointment(@RequestBody @Valid final ApptUpdateRequestDTO request,
             @PathVariable("apptid") final UUID apptid) {
         log.warn(request.toString());
         Appointment result = this.apptService.updateAppointment(request, apptid);
@@ -85,7 +85,7 @@ public class AppointmentController {
 
     @Operation(summary = "Deletes an appointment", description = "Deletes a given appt based on ID")
     @DeleteMapping(path = "/{apptid}")
-    HttpStatus deleteUser(@PathVariable("apptid") final UUID apptid) {
+    HttpStatus deleteAppointment(@PathVariable("apptid") final UUID apptid) {
         UUID result = this.apptService.deleteAppointment(apptid);
         if (result != null) {
             return HttpStatus.OK;

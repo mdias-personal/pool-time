@@ -110,4 +110,9 @@ final public class UserService {
         return userid;
     }
 
+    public User getUser(UUID userid) {
+        Optional<User> user = userRepo.findById(userid);
+        return user.isPresent() ? user.get() : null;
+    }
+
 }

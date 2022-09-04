@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, FormLabel, Modal } from 'react-bootstrap';
 import { EventProps } from '../../types/Props';
 import { addNewAppt } from '../../utils/MiddleEnd';
 
@@ -46,7 +46,7 @@ const NewRequest: React.FC<NewRequestProps> = ({
           onChange={(e) => setDay(e.target.value)}
         />
         <br />
-        <label htmlFor='start'>start</label>
+        <label htmlFor='start'>Start</label>
         <input
           type='time'
           id='start'

@@ -37,14 +37,14 @@ const TimeRequest: React.FC<TimeRequestProps> = ({
   return (
     <>
       <p>{request.start + ' -> ' + request.end + ': ' + status}</p>
+      <Button onClick={cancelRequest} variant='outline-danger'>
+        {admin ? 'Deny' : 'Cancel'}
+      </Button>
       {admin ? (
         <Button onClick={approveRequest} variant='outline-success'>
           Approve
         </Button>
       ) : null}
-      <Button onClick={cancelRequest} variant='outline-danger'>
-        {admin ? 'Deny' : 'Cancel'}
-      </Button>
     </>
   );
 };

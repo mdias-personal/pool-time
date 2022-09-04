@@ -21,6 +21,7 @@ final public class UserUpdateRequestDTO {
     private int poolScore;
     private Boolean approved;
     private String oldPword;
+    private Boolean sendApprovalAlert;
 
     @Override
     public String toString() {

@@ -15,17 +15,16 @@ function Menu(props: {
   setShowToast: Function;
   setMainSection: Function;
 }) {
-  console.log(props.user);
   return (
     <>
-      <Navbar bg="light" expand="xl" className="mb-3" collapseOnSelect>
+      <Navbar bg='light' expand='xl' className='mb-3' collapseOnSelect>
         <Container fluid>
           <Navbar.Brand>&#127946;</Navbar.Brand>
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-xl`} />
           <Navbar.Offcanvas
             id={`offcanvasNavbar-expand-xl`}
             aria-labelledby={`offcanvasNavbarLabel-expand-xl`}
-            placement="end"
+            placement='end'
           >
             <Offcanvas.Header closeButton>
               <Offcanvas.Title id={`offcanvasNavbarLabel-expand-xl`}>
@@ -33,11 +32,9 @@ function Menu(props: {
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
-              <Nav className="justify-content-end flex-grow-x1 pe-3">
+              <Nav className='justify-content-end flex-grow-x1 pe-3'>
                 <Nav.Link
-                  onClick={() =>
-                    props.setMainSection(<EventFeed {...props.user} />)
-                  }
+                  onClick={() => props.setMainSection(<EventFeed {...props.user} />)}
                 >
                   Home
                 </Nav.Link>
@@ -56,7 +53,7 @@ function Menu(props: {
                   Calendar
                 </Nav.Link>
                 <NavDropdown
-                  title="Dropdown"
+                  title='Dropdown'
                   id={`offcanvasNavbarDropdown-expand-xl`}
                 >
                   <NavDropdown.Item
@@ -64,9 +61,7 @@ function Menu(props: {
                       props.setMainSection(
                         <UserPage
                           login={false}
-                          submitFunc={() =>
-                            console.log('we need a submit function')
-                          }
+                          submitFunc={() => console.log('we need a submit function')}
                         />
                       );
                     }}
@@ -81,7 +76,9 @@ function Menu(props: {
                     </NavDropdown.Item>
                   ) : null}
                   <NavDropdown.Divider />
-                  <NavDropdown.Item>Sign out</NavDropdown.Item>
+                  <NavDropdown.Item onClick={() => window.location.reload()}>
+                    Sign out
+                  </NavDropdown.Item>
                   <NavDropdown.Item onClick={() => props.setShowToast(true)}>
                     Show Toast
                   </NavDropdown.Item>

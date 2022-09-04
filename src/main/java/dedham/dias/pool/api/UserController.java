@@ -24,6 +24,7 @@ import dedham.dias.pool.dto.UserSearchRequestDTO;
 import dedham.dias.pool.dto.UserUpdateRequestDTO;
 import dedham.dias.pool.model.User;
 import dedham.dias.pool.service.UserService;
+import dedham.dias.pool.util.TextUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -81,6 +82,10 @@ public class UserController {
         log.warn(request.toString());
         User result = this.userService.updateUser(request, userid);
         if (result != null) {
+            if (request.getSendApprovalAlert()) {
+                TextUtils.sendMessage(result.getPnumber(), "Congrats " + result.getFName()
+                        + "! your request for http://dedham-pool.online:82 has been approved! Lou wants to see you at the pool. Login and start making requests!");
+            }
             return HttpStatus.OK;
         } else {
             return HttpStatus.BAD_REQUEST;
@@ -90,11 +95,14 @@ public class UserController {
     @Operation(summary = "Deletes a user", description = "Deletes a given user based on ID")
     @DeleteMapping(path = "/{userid}")
     HttpStatus deleteUser(@PathVariable("userid") final UUID userid) {
-        UUID result = this.userService.deleteUser(userid);
-        if (result != null) {
-            return HttpStatus.OK;
-        } else {
+        User user = this.userService.getUser(userid);
+        if (user == null) {
             return HttpStatus.BAD_REQUEST;
+        } else {
+            this.userService.deleteUser(user.getId());
+            TextUtils.sendMessage(user.getPnumber(), "Sorry " + user.getFName()
+                    + " but your request for http://dedham-pool.online:82 has been denied! Better luck next time.");
+            return HttpStatus.OK;
         }
     }
 }
