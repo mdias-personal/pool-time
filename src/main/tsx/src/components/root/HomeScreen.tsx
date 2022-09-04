@@ -1,6 +1,5 @@
 import { userInfo } from 'os';
 import React, { useState } from 'react';
-import { Toast } from 'react-bootstrap';
 import { UserProps } from '../../types/Props';
 import EventFeed from './EventFeed';
 import Menu from './Menu';
