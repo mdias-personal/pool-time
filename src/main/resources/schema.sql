@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS appointment (
     id UUID,
     owneruuid UUID,
     approved BOOLEAN default false,
-    start_date DATE NOT NULL,
-    end_date DATE NOT NULL,
+    start_date timestamp with time zone NOT NULL,
+    end_date timestamp with time zone NOT NULL,
     PRIMARY KEY (id)
 );  

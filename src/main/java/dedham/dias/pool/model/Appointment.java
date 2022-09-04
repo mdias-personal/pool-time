@@ -1,6 +1,6 @@
 package dedham.dias.pool.model;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -25,8 +25,8 @@ public class Appointment {
     private UUID ownerid;
 
     @Column(name = "start_date")
-    private LocalDate start;
+    private Date start;
     @Column(name = "end_date")
-    private LocalDate end;
+    private Date end;
     private Boolean approved;
 }

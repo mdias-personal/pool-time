@@ -5,8 +5,8 @@ import {
   convertApptFromBackToFront,
   convertUserFromBackToFront
 } from '../../utils/MiddleEnd';
-import TimeRequest from '../timerequest/TimeRequest';
-import UserRequest from '../user/UserRequest';
+import TimeRequestTable from '../timerequest/TimeRequestTable';
+import UserRequestTable from '../user/UserRequestTable';
 
 export const AdminPage = () => {
   const [timeRequests, setTimeRequests] = useState<EventProps[]>([]);
@@ -39,38 +39,23 @@ export const AdminPage = () => {
       <Accordion.Item eventKey='0'>
         <Accordion.Header>User Requests ({userRequests.length})</Accordion.Header>
         <Accordion.Body>
-          <ul>
-            {userRequests.map((request) => {
-              return (
-                <li>
-                  <UserRequest
-                    request={request}
-                    pageReload={pageReload}
-                    setPageReload={setPageReload}
-                  />
-                </li>
-              );
-            })}
-          </ul>
+          <UserRequestTable
+            requests={userRequests}
+            pageReload={pageReload}
+            setPageReload={setPageReload}
+            admin={true}
+          />
         </Accordion.Body>
       </Accordion.Item>
       <Accordion.Item eventKey='1'>
         <Accordion.Header>Time Requests ({timeRequests.length})</Accordion.Header>
         <Accordion.Body>
-          <ul>
-            {timeRequests.map((request) => {
-              return (
-                <li>
-                  <TimeRequest
-                    request={request}
-                    pageReload={pageReload}
-                    setPageReload={setPageReload}
-                    admin={true}
-                  />
-                </li>
-              );
-            })}
-          </ul>
+          <TimeRequestTable
+            requests={timeRequests}
+            pageReload={pageReload}
+            setPageReload={setPageReload}
+            admin={true}
+          />
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>

@@ -86,15 +86,18 @@ export async function deleteUser(args: UserProps) {
 }
 
 export function convertApptFromBackToFront(appt: any): EventProps {
+  console.log(appt);
   return {
     id: appt.id,
     approved: appt.approved,
     start: appt.start,
-    end: appt.end
+    end: appt.end,
+    ownerid: appt.ownerid
   } as EventProps;
 }
 
 export async function addNewAppt(args: EventProps) {
+  console.log(args);
   return fetch(`/appts/${args.ownerid}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

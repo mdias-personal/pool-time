@@ -1,6 +1,6 @@
 package dedham.dias.pool.dto;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 final public class ApptUpdateRequestDTO {
     private Boolean approved;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDate start;
+    private Date start;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDate end;
+    private Date end;
     private Boolean sendApprovalAlert;
 
     @Override

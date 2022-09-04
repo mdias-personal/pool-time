@@ -14,7 +14,9 @@ import dedham.dias.pool.dto.ApptCreationRequestDTO;
 import dedham.dias.pool.dto.ApptUpdateRequestDTO;
 import dedham.dias.pool.model.Appointment;
 import dedham.dias.pool.persistence.AppointmentRepository;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 final public class AppointmentService {
     private final AppointmentRepository apptRepo;
@@ -45,6 +47,8 @@ final public class AppointmentService {
         appt.setApproved(false);
         appt.setStart(request.getStart());
         appt.setEnd(request.getEnd());
+        log.warn(request.toString());
+        log.warn(appt.toString());
         return apptRepo.save(appt);
     }
 

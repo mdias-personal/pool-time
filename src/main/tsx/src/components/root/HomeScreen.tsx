@@ -6,22 +6,23 @@ import EventFeed from './EventFeed';
 import Menu from './Menu';
 
 function HomeScreen(user: UserProps) {
-  const [showToast, setShowToast] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const [mainSection, setMainSection] = useState(<EventFeed {...user} />);
+
+  function setPageAndCloseMenu(section: JSX.Element) {
+    setExpanded(false);
+    setMainSection(section);
+  }
 
   return (
     <div>
       <Menu
         user={user}
-        setShowToast={setShowToast}
-        setMainSection={setMainSection}
+        setMainSection={setPageAndCloseMenu}
+        expanded={expanded}
+        setExpanded={setExpanded}
       />
       <div className='main-section'>{mainSection}</div>
-      {showToast ? (
-        <Toast onClose={() => setShowToast(false)} autohide={true}>
-          <Toast.Body>Hello, world! This is a toast message.</Toast.Body>
-        </Toast>
-      ) : null}
     </div>
   );
 }

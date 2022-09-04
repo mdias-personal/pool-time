@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { convertApptFromBackToFront } from '../../utils/MiddleEnd';
 import { EventProps, UserProps } from '../../types/Props';
 import { Button } from 'react-bootstrap';
-import NewRequest from './NewRequest';
-import TimeRequest from './TimeRequest';
+import RequestForm from './RequestForm';
+import TimeRequestTable from './TimeRequestTable';
 
 function RequestPage(user: UserProps): JSX.Element {
   const [timeRequests, setTimeRequests] = useState<EventProps[]>([]);
@@ -23,21 +23,15 @@ function RequestPage(user: UserProps): JSX.Element {
       <Button variant='primary' onClick={() => setShowModal(true)}>
         New Request
       </Button>
-      <ul>
-        {timeRequests.map((request) => {
-          return (
-            <li>
-              <TimeRequest
-                request={request}
-                pageReload={pageReload}
-                setPageReload={setPageReload}
-                admin={false}
-              />
-            </li>
-          );
-        })}
-      </ul>
-      <NewRequest
+      <br />
+      <br />
+      <TimeRequestTable
+        requests={timeRequests}
+        pageReload={pageReload}
+        setPageReload={setPageReload}
+        admin={false}
+      />
+      <RequestForm
         userid={user.id || ''}
         showModal={showModal}
         setShowModal={setShowModal}

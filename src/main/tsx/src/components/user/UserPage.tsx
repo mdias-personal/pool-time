@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { UserProps } from '../../types/Props';
+import { formatNumber } from '../../utils/Misc';
 
 export const UserPage = (props: {
   login: boolean;
@@ -25,19 +26,6 @@ export const UserPage = (props: {
     };
     props.submitFunc(args);
   }
-  function formatNumber(value: string): void {
-    value.replaceAll(/D/g, '');
-    [3, 7].map((d) => {
-      if (value.length > d && value.charAt(d) !== '-') {
-        value = value.substring(0, d) + '-' + value.substring(d, 12);
-      }
-    });
-    if (value.length >= 12) {
-      value = value.substring(0, 12);
-    }
-    setPhonenumber(value);
-  }
-
   return (
     <form onSubmit={(e) => handleSubmit(e)}>
       <input
@@ -84,9 +72,8 @@ export const UserPage = (props: {
             pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}'
             maxLength={13}
             title='use dashes ... 508-821-3222'
-            onKeyUp={(e) => formatNumber(e.currentTarget.value)}
+            onKeyUp={(e) => setPhonenumber(formatNumber(e.currentTarget.value))}
             required
-            onChange={(e) => setPhonenumber(e.target.value)}
           />
           <br />
         </>

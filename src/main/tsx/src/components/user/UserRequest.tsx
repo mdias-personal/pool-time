@@ -30,15 +30,20 @@ const UserRequest: React.FC<UserRequestProps> = ({
     setPageReload(!pageReload);
   }
   return (
-    <>
-      <p>{request.firstname + ' ' + request.lastname + ': ' + request.email}</p>
-      <Button onClick={denyUser} variant='outline-danger'>
-        Deny
-      </Button>
-      <Button onClick={approveUser} variant='outline-success'>
-        Approve
-      </Button>
-    </>
+    <tr>
+      <td>{request.firstname}</td>
+      <td>{request.lastname}</td>
+      <td>{request.email}</td>
+      <td>{request.phonenumber}</td>
+      <td>
+        <Button onClick={denyUser} variant='outline-danger'>
+          Deny
+        </Button>
+        <Button onClick={approveUser} variant='outline-success'>
+          Approve
+        </Button>
+      </td>
+    </tr>
   );
 };
 

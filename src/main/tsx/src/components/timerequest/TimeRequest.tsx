@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { UNEXPECT_ALERT_TEXT } from '../../types/Constants';
 import { EventProps } from '../../types/Props';
 import { deleteAppt, updateAppt } from '../../utils/MiddleEnd';
+import RequestForm from './RequestForm';
 
 interface TimeRequestProps {
   request: EventProps;
@@ -15,10 +17,9 @@ const TimeRequest: React.FC<TimeRequestProps> = ({
   setPageReload,
   admin
 }: TimeRequestProps) => {
+  const [showModal, setShowModal] = useState(false);
   async function cancelRequest() {
-    console.log(request);
     const result = await deleteAppt(request.id || '');
-    console.log(result);
     if (!result) {
       alert(UNEXPECT_ALERT_TEXT);
     }
@@ -27,25 +28,41 @@ const TimeRequest: React.FC<TimeRequestProps> = ({
   async function approveRequest() {
     request.approved = true;
     const result = await updateAppt(request);
-    console.log(result);
     if (!result) {
       alert(UNEXPECT_ALERT_TEXT);
     }
     setPageReload(!pageReload);
   }
-  const status = request.approved ? 'upcoming' : 'awaiting approval';
   return (
-    <>
-      <p>{request.start + ' -> ' + request.end + ': ' + status}</p>
-      <Button onClick={cancelRequest} variant='outline-danger'>
-        {admin ? 'Deny' : 'Cancel'}
-      </Button>
-      {admin ? (
-        <Button onClick={approveRequest} variant='outline-success'>
-          Approve
+    <tr>
+      <td>{new Date(request.start).toLocaleDateString()}</td>
+      <td>{new Date(request.start).toLocaleTimeString()}</td>
+      <td>{new Date(request.end).toLocaleTimeString()}</td>
+      <td>{request.ownerid}</td>
+      <td>{request.approved ? 'upcoming' : 'awaiting approval'}</td>
+      <td>
+        <Button onClick={cancelRequest} variant='outline-danger'>
+          {admin ? 'Deny' : 'Cancel'}
         </Button>
-      ) : null}
-    </>
+        {admin ? (
+          <Button onClick={approveRequest} variant='outline-success'>
+            Approve
+          </Button>
+        ) : (
+          <Button onClick={() => setShowModal(true)} variant='outline-primary'>
+            Edit
+          </Button>
+        )}
+      </td>
+      <RequestForm
+        userid={request.ownerid}
+        showModal={showModal}
+        setShowModal={setShowModal}
+        pageReload={pageReload}
+        setPageReload={setPageReload}
+        request={request}
+      />
+    </tr>
   );
 };
 

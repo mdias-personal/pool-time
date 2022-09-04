@@ -6,7 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -21,13 +21,13 @@ import lombok.NoArgsConstructor;
 final public class ApptCreationRequestDTO {
     @NotNull
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDate start;
+    private Date start;
     @NotNull
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDate end;
+    private Date end;
 
     @Override
     public String toString() {
-        return "ApptCreationRequestDTO :\n" + this.start + "\n " + this.end;
+        return "ApptCreationRequestDTO :\n" + this.start.toString() + "\n " + this.end.toString();
     }
 }
