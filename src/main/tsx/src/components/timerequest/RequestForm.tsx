@@ -38,7 +38,6 @@ const RequestForm: React.FC<RequestFormProps> = ({
     const result = request
       ? await updateAppt({ ...args, approved: false, id: request.id })
       : await addNewAppt(args);
-    console.log(result);
     setPageReload(!pageReload);
     setShowModal(false);
   }

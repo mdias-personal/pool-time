@@ -73,6 +73,7 @@ export const UserPage = (props: {
             maxLength={13}
             title='use dashes ... 508-821-3222'
             onKeyUp={(e) => setPhonenumber(formatNumber(e.currentTarget.value))}
+            onChange={(e) => setPhonenumber(formatNumber(e.currentTarget.value))}
             required
           />
           <br />

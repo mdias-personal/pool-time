@@ -110,6 +110,11 @@ div.main-section {
   color: $primary !important;
 }
 
+img.main-pic {
+  width: 40%;
+  height: auto;
+}
+
 /* mobile specific properties */
 @media only screen and (max-width: 768px) {
   form {

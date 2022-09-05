@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavDropdown, Offcanvas } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -14,15 +14,14 @@ import EventFeed from './EventFeed';
 interface MenuProps {
   user: UserProps;
   setMainSection: Function;
-  expanded: boolean;
-  setExpanded: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const Menu: React.FC<MenuProps> = ({
-  user,
-  setMainSection,
-  expanded,
-  setExpanded
-}: MenuProps) => {
+const Menu: React.FC<MenuProps> = ({ user, setMainSection }: MenuProps) => {
+  const [expanded, setExpanded] = useState(false);
+
+  function setPageAndCloseMenu(section: JSX.Element) {
+    setExpanded(false);
+    setMainSection(section);
+  }
   return (
     <>
       <Navbar bg='light' expand='xl' className='mb-3' expanded={expanded}>
@@ -37,23 +36,31 @@ const Menu: React.FC<MenuProps> = ({
             aria-labelledby={`offcanvasNavbarLabel-expand-xl`}
             placement='end'
           >
-            <Offcanvas.Header closeButton>
+            <Offcanvas.Header closeButton onHide={() => setExpanded(false)}>
               <Offcanvas.Title id={`offcanvasNavbarLabel-expand-xl`}>
                 Menu
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className='justify-content-end flex-grow-x1 pe-3'>
-                <Nav.Link onClick={() => setMainSection(<EventFeed {...user} />)}>
+                <Nav.Link
+                  onClick={() => setPageAndCloseMenu(<EventFeed {...user} />)}
+                >
                   Home
                 </Nav.Link>
-                <Nav.Link onClick={() => setMainSection(<RequestPage {...user} />)}>
+                <Nav.Link
+                  onClick={() => setPageAndCloseMenu(<RequestPage {...user} />)}
+                >
                   Time Requests
                 </Nav.Link>
-                <Nav.Link onClick={() => setMainSection(<CalendarPage {...user} />)}>
+                <Nav.Link
+                  onClick={() => setPageAndCloseMenu(<CalendarPage {...user} />)}
+                >
                   Calendar
                 </Nav.Link>
-                <Nav.Link onClick={() => setMainSection(<RankingPage {...user} />)}>
+                <Nav.Link
+                  onClick={() => setPageAndCloseMenu(<RankingPage {...user} />)}
+                >
                   Score Board
                 </Nav.Link>
                 <NavDropdown
@@ -62,7 +69,7 @@ const Menu: React.FC<MenuProps> = ({
                 >
                   <NavDropdown.Item
                     onClick={() => {
-                      setMainSection(
+                      setPageAndCloseMenu(
                         <UserPage
                           login={false}
                           submitFunc={() => console.log('we need a submit function')}
@@ -73,7 +80,9 @@ const Menu: React.FC<MenuProps> = ({
                     User Page
                   </NavDropdown.Item>
                   {user.admin ? (
-                    <NavDropdown.Item onClick={() => setMainSection(<AdminPage />)}>
+                    <NavDropdown.Item
+                      onClick={() => setPageAndCloseMenu(<AdminPage />)}
+                    >
                       Admin page
                     </NavDropdown.Item>
                   ) : null}
