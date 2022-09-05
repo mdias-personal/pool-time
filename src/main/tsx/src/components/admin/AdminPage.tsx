@@ -10,6 +10,8 @@ export const AdminPage = () => {
   const [timeRequests, setTimeRequests] = useState<EventProps[]>([]);
   const [userRequests, setUserRequests] = useState<UserProps[]>([]);
   const [pageReload, setPageReload] = useState(true);
+  const [displayNames, setDisplayNames] = useState<{ [id: string]: string }>({});
+
   useEffect(() => {
     fetch('/users')
       .then((response) => response.json())
@@ -20,8 +22,6 @@ export const AdminPage = () => {
             .filter((user: UserProps) => !user.approved)
         );
       });
-  }, [pageReload]);
-  useEffect(() => {
     fetch('/appts')
       .then((response) => response.json())
       .then((data) => {
@@ -30,6 +30,11 @@ export const AdminPage = () => {
             .map((appt: any) => convertApptFromBackToFront(appt))
             .filter((appt: EventProps) => !appt.approved)
         );
+      });
+    fetch('/users/names')
+      .then((response) => response.json())
+      .then((data) => {
+        setDisplayNames(data);
       });
   }, [pageReload]);
   return (
@@ -53,6 +58,7 @@ export const AdminPage = () => {
             pageReload={pageReload}
             setPageReload={setPageReload}
             admin={true}
+            displayNames={displayNames}
           />
         </Accordion.Body>
       </Accordion.Item>

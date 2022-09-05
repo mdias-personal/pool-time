@@ -115,4 +115,9 @@ final public class UserService {
         return user.isPresent() ? user.get() : null;
     }
 
+    public List<User> getAdminUsers() {
+        final User user = new User();
+        user.setAdmin(true);
+        return userRepo.findAll(Example.of(user));
+    }
 }

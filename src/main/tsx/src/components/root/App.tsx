@@ -8,14 +8,14 @@ import { WaitingApproval } from '../user/WaitingApproval';
 import HomeScreen from './HomeScreen';
 
 function App(): JSX.Element {
-  async function loginOrSignup(args: UserProps) {
-    if (args.operation === 'add') {
+  async function loginOrSignup(args: UserProps, operation: String) {
+    if (operation === 'add') {
       const result = await addNewUser(args);
       if (typeof result !== 'string') {
         const message = `thanks for signing up ${result.fname}! your application is being reviewed by Lou!`;
         setPage(<WaitingApproval message={message} />);
       }
-    } else if (args.operation === 'login') {
+    } else if (operation === 'login') {
       const result = await loginUser(args);
       if (typeof result !== 'number') {
         setPage(<HomeScreen {...convertUserFromBackToFront(result)} />);

@@ -5,16 +5,22 @@ import RequestForm from './RequestForm';
 import TimeRequestTable from './TimeRequestTable';
 import { convertApptFromBackToFront } from '../../utils/MidEnd/ApptUtils';
 
-function RequestPage(user: UserProps): JSX.Element {
+const RequestPage: React.FC<UserProps> = (user: UserProps) => {
   const [timeRequests, setTimeRequests] = useState<EventProps[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [pageReload, setPageReload] = useState(false);
+  const [displayNames, setDisplayNames] = useState<{ [id: string]: string }>({});
 
   useEffect(() => {
     fetch(`/appts/${user.id}`)
       .then((response) => response.json())
       .then((data) => {
         setTimeRequests(data.map((user: any) => convertApptFromBackToFront(user)));
+      });
+    fetch('/users/names')
+      .then((response) => response.json())
+      .then((data) => {
+        setDisplayNames(data);
       });
   }, [pageReload]);
   return (
@@ -30,6 +36,7 @@ function RequestPage(user: UserProps): JSX.Element {
         pageReload={pageReload}
         setPageReload={setPageReload}
         admin={false}
+        displayNames={displayNames}
       />
       <RequestForm
         userid={user.id || ''}
@@ -37,9 +44,10 @@ function RequestPage(user: UserProps): JSX.Element {
         setShowModal={setShowModal}
         pageReload={pageReload}
         setPageReload={setPageReload}
+        displayNames={displayNames}
       />
     </>
   );
-}
+};
 
 export default RequestPage;

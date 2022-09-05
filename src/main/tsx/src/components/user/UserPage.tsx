@@ -21,10 +21,9 @@ export const UserPage = (props: {
       phonenumber: phonenumber.replaceAll('-', ''),
       password: password,
       firstname: firstname,
-      lastname: lastname,
-      operation: newUser ? 'add' : props.login ? 'login' : 'edit'
+      lastname: lastname
     };
-    props.submitFunc(args);
+    props.submitFunc(args, newUser ? 'add' : props.login ? 'login' : 'edit');
   }
   return (
     <form onSubmit={(e) => handleSubmit(e)}>

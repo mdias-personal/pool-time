@@ -17,7 +17,7 @@ final public class ApptUpdateRequestDTO {
     private Date start;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date end;
-    private Boolean sendApprovalAlert;
+    private String actionAlert;
 
     @Override
     public String toString() {

@@ -38,14 +38,15 @@ export async function deleteAppt(apptid: String) {
     });
 }
 
-export async function updateAppt(args: EventProps) {
+export async function updateAppt(args: EventProps, action: String) {
   return fetch(`/appts/${args.id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       start: args.start,
       end: args.end,
-      approved: args.approved
+      approved: args.approved,
+      actionAlert: action
     })
   })
     .then((response) => response.ok)

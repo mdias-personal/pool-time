@@ -7,12 +7,14 @@ interface TimeRequestTableProps {
   pageReload: boolean;
   setPageReload: React.Dispatch<React.SetStateAction<boolean>>;
   admin: boolean;
+  displayNames: { [id: string]: string };
 }
 const TimeRequestTable: React.FC<TimeRequestTableProps> = ({
   requests,
   pageReload,
   setPageReload,
-  admin
+  admin,
+  displayNames
 }: TimeRequestTableProps) => {
   return (
     <table>
@@ -21,6 +23,7 @@ const TimeRequestTable: React.FC<TimeRequestTableProps> = ({
         <th>Start</th>
         <th>End</th>
         <th>Guests</th>
+        <th>Snacks</th>
         <th>Status</th>
         <th>Actions</th>
       </thead>
@@ -33,6 +36,7 @@ const TimeRequestTable: React.FC<TimeRequestTableProps> = ({
               pageReload={pageReload}
               setPageReload={setPageReload}
               admin={admin}
+              displayNames={displayNames}
             />
           );
         })}

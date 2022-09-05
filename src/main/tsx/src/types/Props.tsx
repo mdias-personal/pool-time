@@ -4,7 +4,6 @@ export interface UserProps {
   firstname: String;
   lastname: String;
   phonenumber: String;
-  operation?: String;
   admin?: Boolean;
   poolscore?: Number;
   id?: String;
@@ -12,9 +11,10 @@ export interface UserProps {
 }
 
 export interface EventProps {
- id?: String;
- start: Date;
- end: Date;
- approved: Boolean;
- ownerid: String;
+  id: String;
+  start: Date;
+  end: Date;
+  approved: Boolean;
+  ownerid: String;
+  guests: String[];
 }

@@ -77,4 +77,8 @@ final public class AppointmentService {
         }
     }
 
+    public Appointment getAppointment(UUID apptid) {
+        Optional<Appointment> appt = apptRepo.findById(apptid);
+        return appt.isPresent() ? appt.get() : null;
+    }
 }

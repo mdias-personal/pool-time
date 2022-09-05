@@ -60,8 +60,9 @@ export async function updateUser(user: UserProps, approve?: Boolean) {
     poolscore: user.poolscore
   } as any;
   if (approve) {
-    args['approved'] = true;
-    args['sendApprovalAlert'] = true;
+    args.approved = true;
+    args.sendApprovalAlert = true;
+    args.poolscore++;
   }
   return fetch(`/users/${user.id}`, {
     method: 'PUT',

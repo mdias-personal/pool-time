@@ -1,5 +1,6 @@
 package dedham.dias.pool.api;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,9 +29,7 @@ import dedham.dias.pool.util.TextUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Tag(name = "USERS", description = "Controls the users of the website")
 @RestController("users-controller")
 @RequestMapping(path = "/users")
@@ -47,6 +46,17 @@ public class UserController {
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     List<User> getUsers(@ParameterObject @Valid final UserSearchRequestDTO request) {
         return this.userService.searchUsers(request);
+    }
+
+    @Operation(summary = "Gets users display names", description = "Retrieves user names")
+    @GetMapping(path = "/names", produces = MediaType.APPLICATION_JSON_VALUE)
+    HashMap<UUID, String> getUserDisplayNames(@ParameterObject @Valid final UserSearchRequestDTO request) {
+        HashMap<UUID, String> map = new HashMap<UUID, String>();
+        List<User> users = this.userService.searchUsers(request);
+        users.forEach(user -> {
+            map.put(user.getId(), user.getFName() + ' ' + user.getLName().charAt(0));
+        });
+        return map;
     }
 
     @Operation(summary = "Logs in users", description = "checks the email/pass combo for validness")
@@ -69,6 +79,10 @@ public class UserController {
     ResponseEntity<User> getUsers(@RequestBody @Valid final UserCreationRequestDTO request) {
         User result = this.userService.createUser(request);
         if (result != null) {
+            List<User> admins = this.userService.getAdminUsers();
+            admins.forEach(admin -> {
+                TextUtils.sendNewUserMessage(admin.getPnumber(), result.getFName());
+            });
             return ResponseEntity.ok(result);
         } else {
             return ResponseEntity.badRequest().body(result);
@@ -79,12 +93,10 @@ public class UserController {
     @PutMapping(path = "/{userid}")
     HttpStatus updateUser(@RequestBody @Valid final UserUpdateRequestDTO request,
             @PathVariable("userid") final UUID userid) {
-        log.warn(request.toString());
         User result = this.userService.updateUser(request, userid);
         if (result != null) {
             if (request.getSendApprovalAlert()) {
-                TextUtils.sendMessage(result.getPnumber(), "Congrats " + result.getFName()
-                        + "! your request for http://dedham-pool.online:82 has been approved! Lou wants to see you at the pool. Login and start making requests!");
+                TextUtils.sendUserUpdateMessage(result.getPnumber(), result.getFName(), true);
             }
             return HttpStatus.OK;
         } else {
@@ -100,8 +112,7 @@ public class UserController {
             return HttpStatus.BAD_REQUEST;
         } else {
             this.userService.deleteUser(user.getId());
-            TextUtils.sendMessage(user.getPnumber(), "Sorry " + user.getFName()
-                    + " but your request for http://dedham-pool.online:82 has been denied! Better luck next time.");
+            TextUtils.sendUserUpdateMessage(user.getPnumber(), user.getFName(), false);
             return HttpStatus.OK;
         }
     }

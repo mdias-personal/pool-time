@@ -3,6 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { EventProps } from '../../types/Props';
 import { addNewAppt, updateAppt } from '../../utils/MidEnd/ApptUtils';
 import { getDateFromAppt, getTimeFromAppt } from '../../utils/Misc';
+import Select from 'react-select';
 
 interface RequestFormProps {
   userid: String;
@@ -11,6 +12,7 @@ interface RequestFormProps {
   pageReload: boolean;
   setPageReload: React.Dispatch<React.SetStateAction<boolean>>;
   request?: EventProps;
+  displayNames: { [id: string]: string };
 }
 const RequestForm: React.FC<RequestFormProps> = ({
   userid,
@@ -18,11 +20,13 @@ const RequestForm: React.FC<RequestFormProps> = ({
   setShowModal,
   pageReload,
   setPageReload,
-  request
+  request,
+  displayNames
 }: RequestFormProps) => {
   const [day, setDay] = useState(getDateFromAppt(request));
   const [start, setStart] = useState(getTimeFromAppt(true, request));
   const [end, setEnd] = useState(getTimeFromAppt(false, request));
+  const [guests, setGuests] = useState<string[]>([]);
 
   async function handleSubmit() {
     const args = {
@@ -31,7 +35,7 @@ const RequestForm: React.FC<RequestFormProps> = ({
       end: new Date(day + ' ' + end)
     } as EventProps;
     typeof request !== 'undefined'
-      ? await updateAppt({ ...args, approved: false, id: request.id })
+      ? await updateAppt({ ...args, approved: false, id: request.id }, 'EDIT')
       : await addNewAppt(args);
     setPageReload(!pageReload);
     setShowModal(false);
@@ -75,7 +79,7 @@ const RequestForm: React.FC<RequestFormProps> = ({
           </tr>
           <tr>
             <td>
-              <label htmlFor='end'>Start</label>
+              <label htmlFor='end'>End</label>
             </td>
             <td>
               <input
@@ -84,6 +88,28 @@ const RequestForm: React.FC<RequestFormProps> = ({
                 defaultValue={end}
                 value={end}
                 onChange={(e) => setEnd(e.target.value)}
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label htmlFor='guests'>Guests</label>
+            </td>
+            <td>
+              <Select
+                options={Object.entries(displayNames)
+                  .map((e) => ({
+                    value: e[0],
+                    label: e[1]
+                  }))
+                  .sort((a, b) => a.label.localeCompare(b.label))}
+                closeMenuOnSelect={false}
+                isMulti
+                defaultValue={guests.map((guest) => ({
+                  value: guest,
+                  label: displayNames[guest]
+                }))}
+                onChange={(values) => setGuests(values.map((e) => e.value))}
               />
             </td>
           </tr>

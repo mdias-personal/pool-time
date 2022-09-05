@@ -20,10 +20,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import dedham.dias.pool.configuration.Constants;
 import dedham.dias.pool.dto.ApptCreationRequestDTO;
 import dedham.dias.pool.dto.ApptUpdateRequestDTO;
 import dedham.dias.pool.model.Appointment;
+import dedham.dias.pool.model.User;
 import dedham.dias.pool.service.AppointmentService;
+import dedham.dias.pool.service.UserService;
+import dedham.dias.pool.util.TextUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -35,10 +39,12 @@ import lombok.extern.slf4j.Slf4j;
 public class AppointmentController {
 
     private final AppointmentService apptService;
+    private final UserService userService;
 
     @Autowired
-    public AppointmentController(final AppointmentService apptService) {
+    public AppointmentController(final AppointmentService apptService, final UserService userService) {
         this.apptService = apptService;
+        this.userService = userService;
     }
 
     @Operation(summary = "Gets all apointments", description = "Retrieves all appointment records")
@@ -63,6 +69,11 @@ public class AppointmentController {
             @RequestBody @Valid final ApptCreationRequestDTO request) {
         Appointment result = this.apptService.createAppointment(userid, request);
         if (result != null) {
+            User submitter = this.userService.getUser(userid);
+            List<User> admins = this.userService.getAdminUsers();
+            admins.forEach(admin -> {
+                TextUtils.sendNewApptMessage(admin.getPnumber(), submitter.getFName());
+            });
             return ResponseEntity.ok(result);
         } else {
             return ResponseEntity.badRequest().body(result);
@@ -76,6 +87,19 @@ public class AppointmentController {
         log.warn(request.toString());
         Appointment result = this.apptService.updateAppointment(request, apptid);
         if (result != null) {
+            String alertAction = request.getActionAlert();
+            if (alertAction != null) {
+                User submitter = this.userService.getUser(result.getOwnerid());
+                if (alertAction.equals(Constants.APPROVE_APPT)) {
+                    TextUtils.sendApptUpdateMessage(submitter.getPnumber(), submitter.getFName(), result.getStart(),
+                            true);
+                } else if (alertAction.equals(Constants.EDIT_APPT)) {
+                    List<User> admins = this.userService.getAdminUsers();
+                    admins.forEach(admin -> {
+                        TextUtils.sendEditApptMessage(admin.getPnumber(), submitter.getFName());
+                    });
+                }
+            }
             return HttpStatus.OK;
         } else {
             return HttpStatus.BAD_REQUEST;
@@ -85,8 +109,11 @@ public class AppointmentController {
     @Operation(summary = "Deletes an appointment", description = "Deletes a given appt based on ID")
     @DeleteMapping(path = "/{apptid}")
     HttpStatus deleteAppointment(@PathVariable("apptid") final UUID apptid) {
+        Appointment appt = this.apptService.getAppointment(apptid);
         UUID result = this.apptService.deleteAppointment(apptid);
         if (result != null) {
+            User submitter = this.userService.getUser(appt.getOwnerid());
+            TextUtils.sendApptUpdateMessage(submitter.getPnumber(), submitter.getFName(), appt.getStart(), false);
             return HttpStatus.OK;
         } else {
             return HttpStatus.BAD_REQUEST;
