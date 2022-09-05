@@ -1,4 +1,5 @@
 import { EventProps } from '../../types/Props';
+import { compareStartDates } from '../../utils/Misc';
 import TimeRequest from './TimeRequest';
 
 interface TimeRequestTableProps {
@@ -23,16 +24,18 @@ const TimeRequestTable: React.FC<TimeRequestTableProps> = ({
         <th>Status</th>
         <th>Actions</th>
       </thead>
-      {requests.map((request) => {
-        return (
-          <TimeRequest
-            request={request}
-            pageReload={pageReload}
-            setPageReload={setPageReload}
-            admin={admin}
-          />
-        );
-      })}
+      {requests
+        .sort((a, b) => compareStartDates(a, b))
+        .map((request) => {
+          return (
+            <TimeRequest
+              request={request}
+              pageReload={pageReload}
+              setPageReload={setPageReload}
+              admin={admin}
+            />
+          );
+        })}
     </table>
   );
 };

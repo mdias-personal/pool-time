@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { convertApptFromBackToFront } from '../../utils/MiddleEnd';
 import { EventProps, UserProps } from '../../types/Props';
 import { Button } from 'react-bootstrap';
 import RequestForm from './RequestForm';
 import TimeRequestTable from './TimeRequestTable';
+import { convertApptFromBackToFront } from '../../utils/MidEnd/ApptUtils';
 
 function RequestPage(user: UserProps): JSX.Element {
   const [timeRequests, setTimeRequests] = useState<EventProps[]>([]);

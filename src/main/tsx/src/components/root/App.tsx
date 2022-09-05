@@ -1,11 +1,8 @@
 import { useState } from 'react';
-import {
-  AWAITING_APPROVAL_RESPONSE,
-  BAD_LOGIN_RESPONSE
-} from '../../types/Constants';
+import { AWAITING_APPROVAL_RESPONSE, BAD_LOGIN_RESPONSE } from '../../types/Constants';
 import { UserProps } from '../../types/Props';
-import { convertUserFromBackToFront, loginUser } from '../../utils/MiddleEnd';
-import { addNewUser } from '../../utils/MidEnd/UserUtils';
+import { convertUserFromBackToFront } from '../../utils/MidEnd/UserUtils';
+import { addNewUser, loginUser } from '../../utils/MidEnd/UserUtils';
 import { UserPage } from '../user/UserPage';
 import { WaitingApproval } from '../user/WaitingApproval';
 import HomeScreen from './HomeScreen';
@@ -32,9 +29,7 @@ function App(): JSX.Element {
     }
   }
 
-  const [page, setPage] = useState(
-    <UserPage login={true} submitFunc={loginOrSignup} />
-  );
+  const [page, setPage] = useState(<UserPage login={true} submitFunc={loginOrSignup} />);
 
   return (
     <>

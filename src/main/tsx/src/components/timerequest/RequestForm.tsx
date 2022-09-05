@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { EventProps } from '../../types/Props';
-import { addNewAppt, updateAppt } from '../../utils/MiddleEnd';
+import { addNewAppt, updateAppt } from '../../utils/MidEnd/ApptUtils';
+import { getDateFromAppt, getTimeFromAppt } from '../../utils/Misc';
 
 interface RequestFormProps {
   userid: String;
@@ -19,15 +20,9 @@ const RequestForm: React.FC<RequestFormProps> = ({
   setPageReload,
   request
 }: RequestFormProps) => {
-  const [day, setDay] = useState('');
-  //  request?.start ? new Date(request.start).toLocaleDateString : ''
-  //);
-  const [start, setStart] = useState('');
-  //  request?.start ? new Date(request.start).toLocaleTimeString : ''
-  //);
-  const [end, setEnd] = useState('');
-  //  request?.end ? new Date(request.end).toLocaleTimeString : ''
-  //);
+  const [day, setDay] = useState(getDateFromAppt(request));
+  const [start, setStart] = useState(getTimeFromAppt(true, request));
+  const [end, setEnd] = useState(getTimeFromAppt(false, request));
 
   async function handleSubmit() {
     const args = {
@@ -35,7 +30,7 @@ const RequestForm: React.FC<RequestFormProps> = ({
       start: new Date(day + ' ' + start),
       end: new Date(day + ' ' + end)
     } as EventProps;
-    const result = request
+    typeof request !== 'undefined'
       ? await updateAppt({ ...args, approved: false, id: request.id })
       : await addNewAppt(args);
     setPageReload(!pageReload);
@@ -48,6 +43,7 @@ const RequestForm: React.FC<RequestFormProps> = ({
         <Modal.Title>New Time Request</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <span>every new request or edit needs to be reviewed and approved by Lou</span>
         <table>
           <tr>
             <td>
@@ -57,6 +53,7 @@ const RequestForm: React.FC<RequestFormProps> = ({
               <input
                 type='date'
                 id='day'
+                defaultValue={day}
                 value={day}
                 onChange={(e) => setDay(e.target.value)}
               />
@@ -70,6 +67,7 @@ const RequestForm: React.FC<RequestFormProps> = ({
               <input
                 type='time'
                 id='start'
+                defaultValue={start}
                 value={start}
                 onChange={(e) => setStart(e.target.value)}
               />
@@ -83,6 +81,7 @@ const RequestForm: React.FC<RequestFormProps> = ({
               <input
                 type='time'
                 id='end'
+                defaultValue={end}
                 value={end}
                 onChange={(e) => setEnd(e.target.value)}
               />

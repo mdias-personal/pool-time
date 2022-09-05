@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Accordion } from 'react-bootstrap';
 import { EventProps, UserProps } from '../../types/Props';
-import {
-  convertApptFromBackToFront,
-  convertUserFromBackToFront
-} from '../../utils/MiddleEnd';
+import { convertApptFromBackToFront } from '../../utils/MidEnd/ApptUtils';
+import { convertUserFromBackToFront } from '../../utils/MidEnd/UserUtils';
 import TimeRequestTable from '../timerequest/TimeRequestTable';
 import UserRequestTable from '../user/UserRequestTable';
 

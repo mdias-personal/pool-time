@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { UNEXPECT_ALERT_TEXT } from '../../types/Constants';
 import { EventProps } from '../../types/Props';
-import { deleteAppt, updateAppt } from '../../utils/MiddleEnd';
+import { deleteAppt, updateAppt } from '../../utils/MidEnd/ApptUtils';
 import RequestForm from './RequestForm';
 
 interface TimeRequestProps {

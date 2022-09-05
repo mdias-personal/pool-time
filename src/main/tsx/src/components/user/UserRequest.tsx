@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'react-bootstrap';
 import { UNEXPECT_ALERT_TEXT } from '../../types/Constants';
 import { UserProps } from '../../types/Props';
-import { updateUser, deleteUser } from '../../utils/MiddleEnd';
+import { updateUser, deleteUser } from '../../utils/MidEnd/UserUtils';
 
 interface UserRequestProps {
   request: UserProps;
