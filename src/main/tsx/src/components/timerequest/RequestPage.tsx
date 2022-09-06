@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 import RequestForm from './RequestForm';
 import TimeRequestTable from './TimeRequestTable';
 import { convertApptFromBackToFront } from '../../utils/MidEnd/ApptUtils';
+import { BsCalendarPlus } from 'react-icons/bs';
 
 const RequestPage: React.FC<UserProps> = (user: UserProps) => {
   const [timeRequests, setTimeRequests] = useState<EventProps[]>([]);
@@ -25,9 +26,10 @@ const RequestPage: React.FC<UserProps> = (user: UserProps) => {
   }, [pageReload]);
   return (
     <>
-      <h2>{user.firstname}'s Time Requests</h2>
+      <h2 className='page-title'>{user.firstname}'s Time Requests</h2>
       <Button variant='primary' onClick={() => setShowModal(true)}>
-        New Request
+        {'New Request '}
+        <BsCalendarPlus />
       </Button>
       <br />
       <br />

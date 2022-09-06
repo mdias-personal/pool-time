@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { EventProps } from '../../types/Props';
 import { addNewAppt, updateAppt } from '../../utils/MidEnd/ApptUtils';
-import { getDateFromAppt, getTimeFromAppt } from '../../utils/Misc';
+import { getDateFromAppt, getGuestsFromAppt, getTimeFromAppt } from '../../utils/Misc';
 import Select from 'react-select';
 
 interface RequestFormProps {
@@ -26,16 +26,18 @@ const RequestForm: React.FC<RequestFormProps> = ({
   const [day, setDay] = useState(getDateFromAppt(request));
   const [start, setStart] = useState(getTimeFromAppt(true, request));
   const [end, setEnd] = useState(getTimeFromAppt(false, request));
-  const [guests, setGuests] = useState<string[]>([]);
+  const [guests, setGuests] = useState<string[]>(getGuestsFromAppt(request));
 
   async function handleSubmit() {
     const args = {
       ownerid: userid,
       start: new Date(day + ' ' + start),
-      end: new Date(day + ' ' + end)
+      end: new Date(day + ' ' + end),
+      guests: guests,
+      approved: false
     } as EventProps;
     typeof request !== 'undefined'
-      ? await updateAppt({ ...args, approved: false, id: request.id }, 'EDIT')
+      ? await updateAppt({ ...args, id: request.id }, 'EDIT')
       : await addNewAppt(args);
     setPageReload(!pageReload);
     setShowModal(false);

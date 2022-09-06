@@ -1,10 +1,13 @@
 import { UserProps } from '../../types/Props';
+import FramedImg from '../common/FramedImg';
 
 function EventFeed(user: UserProps): JSX.Element {
   return (
     <>
-      <h2>welcome to the pool website {user.firstname}!</h2>
-      <img className='main-pic' src='/images/lou.jpg' />
+      <h2 className='page-title'>Events</h2>
+      <br />
+      <br />
+      <FramedImg src='/images/lou.jpg' title='Lou' />
     </>
   );
 }

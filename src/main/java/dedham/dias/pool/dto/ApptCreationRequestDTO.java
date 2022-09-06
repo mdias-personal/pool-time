@@ -7,6 +7,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -20,14 +22,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 final public class ApptCreationRequestDTO {
     @NotNull
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date start;
     @NotNull
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date end;
+
+    private List<UUID> guests;
 
     @Override
     public String toString() {
-        return "ApptCreationRequestDTO :\n" + this.start.toString() + "\n " + this.end.toString();
+        return "ApptCreationRequestDTO :\n" + this.start.toString() + "\n " + this.end.toString() + "\n"
+                + this.guests.toString();
     }
 }

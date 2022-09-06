@@ -11,7 +11,7 @@ export interface UserProps {
 }
 
 export interface EventProps {
-  id: String;
+  id?: String;
   start: Date;
   end: Date;
   approved: Boolean;

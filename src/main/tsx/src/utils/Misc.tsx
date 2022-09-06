@@ -54,3 +54,7 @@ export function compareStartDates(a: EventProps, b: EventProps): number {
     return -1;
   }
 }
+
+export function getGuestsFromAppt(request?: EventProps): string[] {
+  return request == undefined ? [] : request.guests.map((g) => g.toString());
+}

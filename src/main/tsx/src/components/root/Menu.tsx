@@ -43,30 +43,19 @@ const Menu: React.FC<MenuProps> = ({ user, setMainSection }: MenuProps) => {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className='justify-content-end flex-grow-x1 pe-3'>
-                <Nav.Link
-                  onClick={() => setPageAndCloseMenu(<EventFeed {...user} />)}
-                >
+                <Nav.Link onClick={() => setPageAndCloseMenu(<EventFeed {...user} />)}>
                   Home
                 </Nav.Link>
-                <Nav.Link
-                  onClick={() => setPageAndCloseMenu(<RequestPage {...user} />)}
-                >
+                <Nav.Link onClick={() => setPageAndCloseMenu(<RequestPage {...user} />)}>
                   Time Requests
                 </Nav.Link>
-                <Nav.Link
-                  onClick={() => setPageAndCloseMenu(<CalendarPage {...user} />)}
-                >
+                <Nav.Link onClick={() => setPageAndCloseMenu(<CalendarPage {...user} />)}>
                   Calendar
                 </Nav.Link>
-                <Nav.Link
-                  onClick={() => setPageAndCloseMenu(<RankingPage {...user} />)}
-                >
+                <Nav.Link onClick={() => setPageAndCloseMenu(<RankingPage {...user} />)}>
                   Score Board
                 </Nav.Link>
-                <NavDropdown
-                  title='Dropdown'
-                  id={`offcanvasNavbarDropdown-expand-xl`}
-                >
+                <NavDropdown title='More' id={`offcanvasNavbarDropdown-expand-xl`}>
                   <NavDropdown.Item
                     onClick={() => {
                       setPageAndCloseMenu(
@@ -80,9 +69,7 @@ const Menu: React.FC<MenuProps> = ({ user, setMainSection }: MenuProps) => {
                     User Page
                   </NavDropdown.Item>
                   {user.admin ? (
-                    <NavDropdown.Item
-                      onClick={() => setPageAndCloseMenu(<AdminPage />)}
-                    >
+                    <NavDropdown.Item onClick={() => setPageAndCloseMenu(<AdminPage />)}>
                       Admin page
                     </NavDropdown.Item>
                   ) : null}

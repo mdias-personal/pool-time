@@ -67,6 +67,7 @@ public class AppointmentController {
     @PostMapping(path = "/{userid}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Appointment> createAppointment(@PathVariable("userid") final UUID userid,
             @RequestBody @Valid final ApptCreationRequestDTO request) {
+        log.warn(request.toString());
         Appointment result = this.apptService.createAppointment(userid, request);
         if (result != null) {
             User submitter = this.userService.getUser(userid);

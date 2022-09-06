@@ -18,3 +18,8 @@ CREATE TABLE IF NOT EXISTS appointment (
     end_date timestamp with time zone NOT NULL,
     PRIMARY KEY (id)
 );  
+CREATE TABLE IF NOT EXISTS appointment_guest (
+    ID  SERIAL PRIMARY KEY,
+    appointmentid UUID,
+    guestid UUID
+);  

@@ -7,7 +7,8 @@ export function convertApptFromBackToFront(appt: any): EventProps {
     approved: appt.approved,
     start: appt.start,
     end: appt.end,
-    ownerid: appt.ownerid
+    ownerid: appt.ownerid,
+    guests: appt.guests
   } as EventProps;
 }
 
@@ -17,7 +18,8 @@ export async function addNewAppt(args: EventProps) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       start: args.start,
-      end: args.end
+      end: args.end,
+      guests: args.guests
     })
   })
     .then((response) => response.json())
@@ -46,6 +48,7 @@ export async function updateAppt(args: EventProps, action: String) {
       start: args.start,
       end: args.end,
       approved: args.approved,
+      guests: args.guests,
       actionAlert: action
     })
   })

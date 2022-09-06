@@ -47,6 +47,7 @@ final public class AppointmentService {
         appt.setApproved(false);
         appt.setStart(request.getStart());
         appt.setEnd(request.getEnd());
+        appt.setGuests(request.getGuests());
         log.warn(request.toString());
         log.warn(appt.toString());
         return apptRepo.save(appt);
@@ -70,6 +71,9 @@ final public class AppointmentService {
             }
             if (request.getEnd() != null) {
                 appt.setEnd(request.getEnd());
+            }
+            if (request.getGuests() != null) {
+                appt.setGuests(request.getGuests());
             }
             return apptRepo.save(appt);
         } else {
