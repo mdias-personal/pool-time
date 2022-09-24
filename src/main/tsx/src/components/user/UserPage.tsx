@@ -1,87 +1,81 @@
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
+import { BAD_RESPONSE } from '../../types/Constants';
 import { UserProps } from '../../types/Props';
+import { editUser } from '../../utils/MidEnd/UserUtils';
 import { formatNumber } from '../../utils/Misc';
+import UserFields from './UserFields';
 
-export const UserPage = (props: {
+const UserPage: React.FC<{
   login: boolean;
-  submitFunc: Function;
-}): JSX.Element => {
+  submitFunc?: (args: UserProps, operation: string) => Promise<void>;
+  user?: UserProps;
+}> = ({ login, submitFunc, user }) => {
   const [newUser, setNewUser] = useState(false);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(user == undefined ? '' : user.email.toString());
   const [password, setPassword] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [firstname, setFirstname] = useState('');
-  const [phonenumber, setPhonenumber] = useState('');
+  const [secondPassword, setSecondPassword] = useState('');
+  const [lastname, setLastname] = useState(
+    user == undefined ? '' : user.lastname.toString()
+  );
+  const [firstname, setFirstname] = useState(
+    user == undefined ? '' : user.firstname.toString()
+  );
+  const [phonenumber, setPhonenumber] = useState(
+    user == undefined ? '' : formatNumber(user.phonenumber.toString())
+  );
 
+  async function sendInfo(args: UserProps, operation: String) {
+    if (operation === 'edit') {
+      args.id = user?.id;
+      const result = await editUser(args);
+      if (typeof result === 'number' && result === BAD_RESPONSE) {
+        alert('incorrect old password provided, info not updated!');
+      } else {
+        alert('info updated!');
+      }
+    }
+  }
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const args: UserProps = {
-      email: email,
-      phonenumber: phonenumber.replaceAll('-', ''),
-      password: password,
-      firstname: firstname,
-      lastname: lastname
-    };
-    props.submitFunc(args, newUser ? 'add' : props.login ? 'login' : 'edit');
+    if (newUser && secondPassword !== password) {
+      alert('Passwords must match!');
+    } else {
+      const args: UserProps = {
+        email: email,
+        phonenumber: phonenumber.replaceAll('-', ''),
+        password: password,
+        firstname: firstname,
+        lastname: lastname,
+        oldPass: secondPassword
+      };
+      submitFunc !== undefined
+        ? submitFunc(args, newUser ? 'add' : login ? 'login' : 'edit')
+        : sendInfo(args, 'edit');
+    }
   }
   return (
     <form onSubmit={(e) => handleSubmit(e)}>
-      <input
-        type='email'
-        placeholder='email'
-        required
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+      <UserFields
+        newUser={newUser}
+        login={login}
+        firstname={firstname}
+        setFirstname={setFirstname}
+        lastname={lastname}
+        setLastname={setLastname}
+        email={email}
+        setEmail={setEmail}
+        phonenumber={phonenumber}
+        setPhonenumber={setPhonenumber}
+        password={password}
+        setPassword={setPassword}
+        secondPassword={secondPassword}
+        setSecondPassword={setSecondPassword}
       />
-      <br />
-      <input
-        type='password'
-        placeholder='password'
-        required
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <br />
-      {newUser ? (
-        <input type='password' placeholder='confirm your password' required />
-      ) : null}
-      {newUser || !props.login ? (
-        <>
-          <input
-            type='text'
-            placeholder='first name'
-            value={firstname}
-            required
-            onChange={(e) => setFirstname(e.target.value)}
-          />
-          <br />
-          <input
-            type='text'
-            placeholder='last name'
-            value={lastname}
-            required
-            onChange={(e) => setLastname(e.target.value)}
-          />
-          <br />
-          <input
-            type='tel'
-            placeholder='phone number'
-            value={phonenumber}
-            pattern='[0-9]{3}-[0-9]{3}-[0-9]{4}'
-            maxLength={13}
-            title='use dashes ... 508-821-3222'
-            onKeyUp={(e) => setPhonenumber(formatNumber(e.currentTarget.value))}
-            onChange={(e) => setPhonenumber(formatNumber(e.currentTarget.value))}
-            required
-          />
-          <br />
-        </>
-      ) : null}
       <Button type='submit'>
-        {newUser ? 'Sign up' : props.login ? 'Log in' : 'Update info'}
+        {newUser ? 'Sign up' : login ? 'Log in' : 'Update info'}
       </Button>
-      {props.login ? (
+      {login ? (
         <Button variant='secondary' onClick={() => setNewUser(!newUser)}>
           {newUser ? 'Existing user?' : 'Sign up'}
         </Button>
@@ -89,3 +83,5 @@ export const UserPage = (props: {
     </form>
   );
 };
+
+export default UserPage;

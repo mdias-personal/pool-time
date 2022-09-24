@@ -1,5 +1,6 @@
+import SnackSelect from '../../components/timerequest/RequestForm/SnackSelect';
 import { UNEXPECT_ALERT_TEXT } from '../../types/Constants';
-import { EventProps } from '../../types/Props';
+import { EventProps, SnackProps } from '../../types/Props';
 
 export function convertApptFromBackToFront(appt: any): EventProps {
   return {
@@ -8,7 +9,8 @@ export function convertApptFromBackToFront(appt: any): EventProps {
     start: appt.start,
     end: appt.end,
     ownerid: appt.ownerid,
-    guests: appt.guests
+    guests: appt.guests,
+    snacks: (appt.snacks as any[]).map((snack) => convertSnackFromBackToFront(snack))
   } as EventProps;
 }
 
@@ -19,7 +21,8 @@ export async function addNewAppt(args: EventProps) {
     body: JSON.stringify({
       start: args.start,
       end: args.end,
-      guests: args.guests
+      guests: args.guests,
+      snacks: args.snacks.map((snack) => snack.name)
     })
   })
     .then((response) => response.json())
@@ -49,7 +52,8 @@ export async function updateAppt(args: EventProps, action: String) {
       end: args.end,
       approved: args.approved,
       guests: args.guests,
-      actionAlert: action
+      actionAlert: action,
+      snacks: args.snacks.map((snack) => snack.name)
     })
   })
     .then((response) => response.ok)
@@ -57,4 +61,12 @@ export async function updateAppt(args: EventProps, action: String) {
       console.log(error);
       alert(UNEXPECT_ALERT_TEXT);
     });
+}
+
+export function convertSnackFromBackToFront(snack: any): SnackProps {
+  return {
+    id: snack.id,
+    type: snack.type,
+    name: snack.name
+  } as SnackProps;
 }

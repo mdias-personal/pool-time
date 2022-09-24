@@ -4,11 +4,11 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { UserProps } from '../../types/Props';
-import { AdminPage } from '../admin/AdminPage';
+import AdminPage from '../admin/AdminPage';
 import CalendarPage from '../calendar/Calendar';
 import RankingPage from '../scoreboard/RankingPage';
 import RequestPage from '../timerequest/RequestPage';
-import { UserPage } from '../user/UserPage';
+import UserPage from '../user/UserPage';
 import EventFeed from './EventFeed';
 
 interface MenuProps {
@@ -26,7 +26,9 @@ const Menu: React.FC<MenuProps> = ({ user, setMainSection }: MenuProps) => {
     <>
       <Navbar bg='light' expand='xl' className='mb-3' expanded={expanded}>
         <Container fluid>
-          <Navbar.Brand>&#127946;</Navbar.Brand>
+          <Navbar.Brand onClick={() => setPageAndCloseMenu(<EventFeed {...user} />)}>
+            &#127946;
+          </Navbar.Brand>
           <Navbar.Toggle
             aria-controls={`offcanvasNavbar-expand-xl`}
             onClick={() => setExpanded(!expanded)}
@@ -58,12 +60,7 @@ const Menu: React.FC<MenuProps> = ({ user, setMainSection }: MenuProps) => {
                 <NavDropdown title='More' id={`offcanvasNavbarDropdown-expand-xl`}>
                   <NavDropdown.Item
                     onClick={() => {
-                      setPageAndCloseMenu(
-                        <UserPage
-                          login={false}
-                          submitFunc={() => console.log('we need a submit function')}
-                        />
-                      );
+                      setPageAndCloseMenu(<UserPage user={user} login={false} />);
                     }}
                   >
                     User Page

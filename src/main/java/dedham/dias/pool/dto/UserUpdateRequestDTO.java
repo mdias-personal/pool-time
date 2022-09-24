@@ -26,6 +26,6 @@ final public class UserUpdateRequestDTO {
     @Override
     public String toString() {
         return "UserUpdateRequestDTO :\n" + this.fname + "\n " + this.lname + "\n" + this.pnumber + "\n" + this.email
-                + "\n" + this.pword;
+                + "\n" + this.pword + "\n" + this.oldPword;
     }
 }

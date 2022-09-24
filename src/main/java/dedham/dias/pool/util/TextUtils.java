@@ -17,15 +17,22 @@ public class TextUtils {
     public static final String SERVICE_SID = "MG9641fcc0695e35d4d479c3a83ddd0207";
 
     private static void sendMessage(String pnumber, String body) {
-        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-        log.warn(body);
-        Message message = Message.creator(
-                new PhoneNumber("+1" + pnumber),
-                SERVICE_SID,
-                body)
-                .create();
+        // asynchronously send the text updates
+        new Thread(() -> {
+            Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+            log.warn(body);
+            try {
+                Message message = Message.creator(
+                        new PhoneNumber("+1" + pnumber),
+                        SERVICE_SID,
+                        body)
+                        .create();
+                System.out.println(message.getSid());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
 
-        System.out.println(message.getSid());
     }
 
     public static void sendApptUpdateMessage(String number, String fname, Date date, boolean approved) {

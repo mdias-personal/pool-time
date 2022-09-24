@@ -10,6 +10,8 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -38,4 +40,8 @@ public class Appointment {
     @CollectionTable(name = "appointment_guest", joinColumns = @JoinColumn(name = "appointmentid"))
     @Column(name = "guestid")
     private List<UUID> guests;
+
+    @ManyToMany
+    @JoinTable(name = "appointment_snack", joinColumns = @JoinColumn(name = "appointmentid"), inverseJoinColumns = @JoinColumn(name = "snackid"))
+    private List<Snack> snacks;
 }

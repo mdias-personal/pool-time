@@ -8,6 +8,7 @@ export interface UserProps {
   poolscore?: Number;
   id?: String;
   approved?: Boolean;
+  oldPass?: String;
 }
 
 export interface EventProps {
@@ -17,4 +18,11 @@ export interface EventProps {
   approved: Boolean;
   ownerid: String;
   guests: String[];
+  snacks: SnackProps[];
+}
+
+export interface SnackProps {
+  id?: String;
+  name: String;
+  type?: String;
 }

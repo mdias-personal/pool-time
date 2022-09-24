@@ -1,4 +1,4 @@
-import { EventProps } from '../../types/Props';
+import { EventProps, SnackProps } from '../../types/Props';
 import { compareStartDates } from '../../utils/Misc';
 import TimeRequest from './TimeRequest';
 
@@ -8,13 +8,15 @@ interface TimeRequestTableProps {
   setPageReload: React.Dispatch<React.SetStateAction<boolean>>;
   admin: boolean;
   displayNames: { [id: string]: string };
+  allSnacks: SnackProps[];
 }
 const TimeRequestTable: React.FC<TimeRequestTableProps> = ({
   requests,
   pageReload,
   setPageReload,
   admin,
-  displayNames
+  displayNames,
+  allSnacks
 }: TimeRequestTableProps) => {
   return (
     <table>
@@ -37,6 +39,7 @@ const TimeRequestTable: React.FC<TimeRequestTableProps> = ({
               setPageReload={setPageReload}
               admin={admin}
               displayNames={displayNames}
+              allSnacks={allSnacks}
             />
           );
         })}

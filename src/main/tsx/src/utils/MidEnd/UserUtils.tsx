@@ -51,6 +51,26 @@ export function convertUserFromBackToFront(user: any): UserProps {
   } as UserProps;
 }
 
+export async function editUser(user: UserProps) {
+  return fetch(`/users/${user.id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      fname: user.firstname,
+      lname: user.lastname,
+      email: user.email,
+      pnumber: user.phonenumber,
+      pword: user.password,
+      oldPword: user.oldPass
+    } as any)
+  })
+    .then((response) => response.status)
+    .catch((error) => {
+      console.log(error);
+      alert(UNEXPECT_ALERT_TEXT);
+    });
+}
+
 export async function updateUser(user: UserProps, approve?: Boolean) {
   let args = {
     fname: user.firstname,

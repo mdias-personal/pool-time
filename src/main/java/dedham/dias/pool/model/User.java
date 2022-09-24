@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,15 +18,15 @@ public class User {
     public User(UUID id, String fName, String lName, String pnumber, String email, String pword) {
         this.id = id;
         this.fName = fName;
-        this.lName=lName;
-        this.pnumber=pnumber;
-        this.email=email;
-        this.pword=pword;
+        this.lName = lName;
+        this.pnumber = pnumber;
+        this.email = email;
+        this.pword = pword;
     }
 
     public User(String loginEmail, String loginPass) {
-        this.email=loginEmail;
-        this.pword=loginPass;
+        this.email = loginEmail;
+        this.pword = loginPass;
     }
 
     public User() {

@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Accordion } from 'react-bootstrap';
-import { EventProps, UserProps } from '../../types/Props';
+import { EventProps, UserProps, SnackProps } from '../../types/Props';
 import { convertApptFromBackToFront } from '../../utils/MidEnd/ApptUtils';
 import { convertUserFromBackToFront } from '../../utils/MidEnd/UserUtils';
 import TimeRequestTable from '../timerequest/TimeRequestTable';
 import UserRequestTable from '../user/UserRequestTable';
 
-export const AdminPage = () => {
+const AdminPage: React.FC = () => {
   const [timeRequests, setTimeRequests] = useState<EventProps[]>([]);
   const [userRequests, setUserRequests] = useState<UserProps[]>([]);
   const [pageReload, setPageReload] = useState(true);
   const [displayNames, setDisplayNames] = useState<{ [id: string]: string }>({});
+  const [snacks, setSnacks] = useState<SnackProps[]>([]);
 
   useEffect(() => {
     fetch('/users')
@@ -36,6 +37,11 @@ export const AdminPage = () => {
       .then((data) => {
         setDisplayNames(data);
       });
+    fetch('/snacks')
+      .then((response) => response.json())
+      .then((data) => {
+        setSnacks(data);
+      });
   }, [pageReload]);
   return (
     <Accordion>
@@ -59,9 +65,11 @@ export const AdminPage = () => {
             setPageReload={setPageReload}
             admin={true}
             displayNames={displayNames}
+            allSnacks={snacks}
           />
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>
   );
 };
+export default AdminPage;

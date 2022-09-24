@@ -1,4 +1,5 @@
 export const BAD_LOGIN_RESPONSE = 401;
+export const BAD_RESPONSE = 400;
 export const AWAITING_APPROVAL_RESPONSE = 403;
 export const BACKEND_ERROR_RESPONSE = 500;
 

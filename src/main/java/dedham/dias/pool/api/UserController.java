@@ -29,7 +29,9 @@ import dedham.dias.pool.util.TextUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Tag(name = "USERS", description = "Controls the users of the website")
 @RestController("users-controller")
 @RequestMapping(path = "/users")
@@ -91,16 +93,17 @@ public class UserController {
 
     @Operation(summary = "Updates a user", description = "Updates the user with any of the fields given")
     @PutMapping(path = "/{userid}")
-    HttpStatus updateUser(@RequestBody @Valid final UserUpdateRequestDTO request,
+    ResponseEntity<User> updateUser(@RequestBody @Valid final UserUpdateRequestDTO request,
             @PathVariable("userid") final UUID userid) {
         User result = this.userService.updateUser(request, userid);
         if (result != null) {
-            if (request.getSendApprovalAlert()) {
+            if (request.getSendApprovalAlert() != null && request.getSendApprovalAlert()) {
                 TextUtils.sendUserUpdateMessage(result.getPnumber(), result.getFName(), true);
             }
-            return HttpStatus.OK;
+            return ResponseEntity.ok(result);
         } else {
-            return HttpStatus.BAD_REQUEST;
+            return ResponseEntity.badRequest().body(result);
+
         }
     }
 

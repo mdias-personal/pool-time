@@ -14,7 +14,9 @@ import dedham.dias.pool.dto.UserSearchRequestDTO;
 import dedham.dias.pool.dto.UserUpdateRequestDTO;
 import dedham.dias.pool.model.User;
 import dedham.dias.pool.persistence.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 final public class UserService {
     private final UserRepository userRepo;

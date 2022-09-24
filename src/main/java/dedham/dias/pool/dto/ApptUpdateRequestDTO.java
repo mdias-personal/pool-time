@@ -21,10 +21,11 @@ final public class ApptUpdateRequestDTO {
     private Date end;
     private String actionAlert;
     private List<UUID> guests;
+    private List<String> snacks;
 
     @Override
     public String toString() {
         return "ApptUpdateRequestDTO :\n" + this.start.toString() + "\n " + this.end.toString() + "\n"
-                + this.approved.toString() + "\n" + guests.toString();
+                + this.approved.toString() + "\n" + guests.toString() + "\n" + snacks.toString();
     }
 }

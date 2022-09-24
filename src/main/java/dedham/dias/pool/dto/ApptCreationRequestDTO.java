@@ -29,10 +29,11 @@ final public class ApptCreationRequestDTO {
     private Date end;
 
     private List<UUID> guests;
+    private List<String> snacks;
 
     @Override
     public String toString() {
         return "ApptCreationRequestDTO :\n" + this.start.toString() + "\n " + this.end.toString() + "\n"
-                + this.guests.toString();
+                + this.guests.toString() + "\n" + this.snacks.toString();
     }
 }

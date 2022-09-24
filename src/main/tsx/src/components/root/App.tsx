@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { AWAITING_APPROVAL_RESPONSE, BAD_LOGIN_RESPONSE } from '../../types/Constants';
 import { UserProps } from '../../types/Props';
 import { convertUserFromBackToFront } from '../../utils/MidEnd/UserUtils';
-import { addNewUser, loginUser } from '../../utils/MidEnd/UserUtils';
-import { UserPage } from '../user/UserPage';
+import { addNewUser, loginUser, editUser } from '../../utils/MidEnd/UserUtils';
+import UserPage from '../user/UserPage';
 import { WaitingApproval } from '../user/WaitingApproval';
 import HomeScreen from './HomeScreen';
 

@@ -1,4 +1,4 @@
-import { EventProps } from '../types/Props';
+import { EventProps, SnackProps } from '../types/Props';
 
 export function formatNumber(value: string): string {
   value.replaceAll(/D/g, '');
@@ -57,4 +57,8 @@ export function compareStartDates(a: EventProps, b: EventProps): number {
 
 export function getGuestsFromAppt(request?: EventProps): string[] {
   return request == undefined ? [] : request.guests.map((g) => g.toString());
+}
+
+export function getSnacksFromAppt(request?: EventProps): SnackProps[] {
+  return request == undefined ? [] : request.snacks;
 }

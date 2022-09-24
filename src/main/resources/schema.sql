@@ -23,3 +23,16 @@ CREATE TABLE IF NOT EXISTS appointment_guest (
     appointmentid UUID,
     guestid UUID
 );  
+
+CREATE TABLE IF NOT EXISTS snack (
+    id UUID PRIMARY KEY,
+    name VARCHAR(200) NOT NULL,
+    type VARCHAR(200)
+);
+
+
+CREATE TABLE IF NOT EXISTS appointment_snack (
+    ID  SERIAL PRIMARY KEY,
+    appointmentid UUID,
+    snackid UUID
+);  
