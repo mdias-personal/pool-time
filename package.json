@@ -17,11 +17,13 @@
     "react-icons": "^4.4.0",
     "react-scripts": "5.0.1",
     "react-select": "^5.4.0",
+    "standard-version": "^9.5.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "watch": "webpack --watch -d --output ./target/classes/static/built/bundle.js",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "release": "standard-version --no-verify -a -t ''"
   },
   "eslintConfig": {
     "extends": [
