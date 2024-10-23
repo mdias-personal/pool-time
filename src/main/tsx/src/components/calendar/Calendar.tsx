@@ -1,17 +1,43 @@
-import { UserProps } from '../../types/Props';
+import { EventProps, UserProps } from "../../types/Props";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import { useEffect, useState } from "react";
+import { convertApptFromBackToFront } from "../../utils/MidEnd/ApptUtils";
 
 function CalendarPage(user: UserProps): JSX.Element {
-  return (
-    <>
-      <h2 className='page-title'>Calendar</h2>
-      <br />
-      <br />
-      <div>
-        this is where you're going to see a calendar view of the current week's requests
-      </div>
-      <img className='main-pic' src='/images/construction.gif' />
-    </>
-  );
-}
+    const [events, setEvents] = useState<EventProps[]>([]);
+    const [pageReload, setPageReload] = useState(true);
 
+    useEffect(() => {
+        fetch("/appts")
+            .then((response) => response.json())
+            .then((data) => {
+                setEvents(
+                    data.map((appt: any) => convertApptFromBackToFront(appt)),
+                );
+            });
+    }, [pageReload]);
+
+    const calEvents = events.map((event) => {
+        return {
+            id: event.id?.toString() || "id",
+            title: event.guests.length + 1 + " guests",
+            start: event.start,
+            end: event.end,
+            color: event.approved ? "blue" : "orange",
+        };
+    });
+    return (
+        <FullCalendar
+            navLinks={false}
+            plugins={[dayGridPlugin]}
+            initialView="dayGridMonth"
+            events={calEvents}
+            aspectRatio={1.35}
+            eventClick={() => {
+                alert("event clicked");
+            }}
+        />
+    );
+}
 export default CalendarPage;

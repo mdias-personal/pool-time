@@ -52,19 +52,19 @@ p {
 li {
   text-align: left;
 }
-table {
+table.basic {
   width: 100%;
 }
-th,
-td {
+table.basic th,
+table.basic td {
   padding: 15px;
   text-align: left;
 }
-th {
+table.basic th {
   background-color: $primary;
   color: white;
 }
-tr:nth-child(even) {
+table.basic tr:nth-child(even) {
   background-color: #f2f2f2bb;
 }
 button {
@@ -73,7 +73,8 @@ button {
   position: relative;
 }
 
-h2.page-title {
+h2.page-title,
+h2.fc-toolbar-title {
   color: $primary;
   float: left;
 }
@@ -100,6 +101,14 @@ img.polaroid-pic {
 div.polaroid-container {
   text-align: center;
   padding: 10px 20px;
+}
+
+.fc-daygrid-day-number,
+.fc-col-header-cell-cushion,
+.fc-daygrid-day-number:hover,
+.fc-col-header-cell-cushion:hover {
+  color: black;
+  cursor: default;
 }
 /* boot strap overrides */
 .btn-primary,
@@ -142,19 +151,27 @@ span {
   font-size: x-small;
 }
 
+a.fc-daygrid-day-number {
+  text-decoration: none;
+}
+
+a.fc-col-header-cell-cushion {
+  text-decoration: none;
+}
+
 /* mobile specific properties */
 @media only screen and (max-width: 768px) {
   form {
     width: 80%;
   }
-  table thead {
+  table.basic thead {
     display: none;
   }
-  table td {
+  table.basic td {
     display: flex;
   }
 
-  table td::before {
+  table.basic td::before {
     content: attr(aria-label);
     font-weight: bold;
     width: 120px;
