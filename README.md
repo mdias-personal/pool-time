@@ -35,7 +35,7 @@ The project uses [maven](https://maven.apache.org/) as a build tool.
 To build the application run:
 
 ```bash
-  maven install
+  mvn install
 ```
 
 ### Running the application
