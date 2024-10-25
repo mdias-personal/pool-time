@@ -7,8 +7,8 @@ import dedham.dias.pool.dto.ApptUpdateRequestDTO;
 import dedham.dias.pool.model.Appointment;
 import dedham.dias.pool.model.User;
 import dedham.dias.pool.service.AppointmentService;
+import dedham.dias.pool.service.TextService;
 import dedham.dias.pool.service.UserService;
-import dedham.dias.pool.util.TextUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -16,7 +16,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,12 +37,15 @@ public class AppointmentController {
 
   private final AppointmentService apptService;
   private final UserService userService;
+  private final TextService textService;
 
-  @Autowired
   public AppointmentController(
-      final AppointmentService apptService, final UserService userService) {
+      final AppointmentService apptService,
+      final UserService userService,
+      final TextService textService) {
     this.apptService = apptService;
     this.userService = userService;
+    this.textService = textService;
   }
 
   @Operation(summary = "Gets all apointments", description = "Retrieves all appointment records")
@@ -82,7 +84,7 @@ public class AppointmentController {
       List<User> admins = this.userService.getAdminUsers();
       admins.forEach(
           admin -> {
-            TextUtils.sendNewApptMessage(admin.getPnumber(), submitter.getFName());
+            textService.sendNewApptMessage(admin.getPnumber(), submitter.getFName());
           });
       return ResponseEntity.ok(result);
     } else {
@@ -104,13 +106,13 @@ public class AppointmentController {
       if (alertAction != null) {
         User submitter = this.userService.getUser(result.getOwnerid());
         if (alertAction.equals(Constants.APPROVE_APPT)) {
-          TextUtils.sendApptUpdateMessage(
+          textService.sendApptUpdateMessage(
               submitter.getPnumber(), submitter.getFName(), result.getStart(), true);
         } else if (alertAction.equals(Constants.EDIT_APPT)) {
           List<User> admins = this.userService.getAdminUsers();
           admins.forEach(
               admin -> {
-                TextUtils.sendEditApptMessage(admin.getPnumber(), submitter.getFName());
+                textService.sendEditApptMessage(admin.getPnumber(), submitter.getFName());
               });
         }
       }
@@ -127,7 +129,7 @@ public class AppointmentController {
     UUID result = this.apptService.deleteAppointment(apptid);
     if (result != null) {
       User submitter = this.userService.getUser(appt.getOwnerid());
-      TextUtils.sendApptUpdateMessage(
+      textService.sendApptUpdateMessage(
           submitter.getPnumber(), submitter.getFName(), appt.getStart(), false);
       return HttpStatus.OK;
     } else {

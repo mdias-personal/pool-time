@@ -5,8 +5,8 @@ import dedham.dias.pool.dto.UserCreationRequestDTO;
 import dedham.dias.pool.dto.UserSearchRequestDTO;
 import dedham.dias.pool.dto.UserUpdateRequestDTO;
 import dedham.dias.pool.model.User;
+import dedham.dias.pool.service.TextService;
 import dedham.dias.pool.service.UserService;
-import dedham.dias.pool.util.TextUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.api.annotations.ParameterObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,10 +35,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
   private final UserService userService;
+  private final TextService textService;
 
-  @Autowired
-  public UserController(final UserService userService) {
+  public UserController(final UserService userService, final TextService textService) {
     this.userService = userService;
+    this.textService = textService;
   }
 
   @Operation(summary = "Gets users", description = "Retrieves user records")
@@ -88,7 +88,7 @@ public class UserController {
       List<User> admins = this.userService.getAdminUsers();
       admins.forEach(
           admin -> {
-            TextUtils.sendNewUserMessage(admin.getPnumber(), result.getFName());
+            textService.sendNewUserMessage(admin.getPnumber(), result.getFName());
           });
       return ResponseEntity.ok(result);
     } else {
@@ -106,7 +106,7 @@ public class UserController {
     User result = this.userService.updateUser(request, userid);
     if (result != null) {
       if (request.getSendApprovalAlert() != null && request.getSendApprovalAlert()) {
-        TextUtils.sendUserUpdateMessage(result.getPnumber(), result.getFName(), true);
+        textService.sendUserUpdateMessage(result.getPnumber(), result.getFName(), true);
       }
       return ResponseEntity.ok(result);
     } else {
@@ -122,7 +122,7 @@ public class UserController {
       return HttpStatus.BAD_REQUEST;
     } else {
       this.userService.deleteUser(user.getId());
-      TextUtils.sendUserUpdateMessage(user.getPnumber(), user.getFName(), false);
+      textService.sendUserUpdateMessage(user.getPnumber(), user.getFName(), false);
       return HttpStatus.OK;
     }
   }

@@ -1,5 +1,5 @@
 /* (C)2024 */
-package dedham.dias.pool.util;
+package dedham.dias.pool.service;
 
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
@@ -8,18 +8,31 @@ import dedham.dias.pool.configuration.Constants;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 @Slf4j
-public class TextUtils {
-  public static final String ACCOUNT_SID = "AC640584d7a5c9962a3dd2ad031cb5079c";
-  public static final String AUTH_TOKEN = "c5cd5efa3021ff0b0385f8cab2e7231e";
-  public static final String SERVICE_SID = "MG9641fcc0695e35d4d479c3a83ddd0207";
+@Service
+public class TextService {
+  private final String AUTH_TOKEN;
+  private final String ACCOUNT_SID;
+  private final String SERVICE_SID;
 
-  private static void sendMessage(String pnumber, String body) {
+  public TextService(
+      @Value("${twilio.account_sid}") String accountSID,
+      @Value("${twilio.service_sid}") String serviceSID,
+      @Value("${twilio.token}") String token) {
+    this.ACCOUNT_SID = accountSID;
+    this.SERVICE_SID = serviceSID;
+    this.AUTH_TOKEN = token;
+    Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+  }
+
+  private void sendMessage(String pnumber, String body) {
     // asynchronously send the text updates
     new Thread(
             () -> {
-              Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+              log.warn(ACCOUNT_SID);
               log.warn(body);
               try {
                 Message message =
@@ -32,8 +45,7 @@ public class TextUtils {
         .start();
   }
 
-  public static void sendApptUpdateMessage(
-      String number, String fname, Date date, boolean approved) {
+  public void sendApptUpdateMessage(String number, String fname, Date date, boolean approved) {
     String body =
         String.format(
             "%s your time for %s on %s has been %s",
@@ -44,13 +56,13 @@ public class TextUtils {
     sendMessage(number, body);
   }
 
-  private static String formatDate(Date date) {
+  private String formatDate(Date date) {
     String pattern = "MM-dd-yyyy";
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
     return simpleDateFormat.format(date);
   }
 
-  public static void sendNewApptMessage(String pnumber, String fName) {
+  public void sendNewApptMessage(String pnumber, String fName) {
     String body =
         String.format(
             "%s has made a new pool request! Log into %s and review the request.",
@@ -58,14 +70,14 @@ public class TextUtils {
     sendMessage(pnumber, body);
   }
 
-  public static void sendNewUserMessage(String pnumber, String fName) {
+  public void sendNewUserMessage(String pnumber, String fName) {
     String body =
         String.format(
             "%s wants to join %s ! Login and review the request.", fName, Constants.SITE_URL);
     sendMessage(pnumber, body);
   }
 
-  public static void sendEditApptMessage(String pnumber, String fName) {
+  public void sendEditApptMessage(String pnumber, String fName) {
     String body =
         String.format(
             "%s has edited a pool request! Log into %s and review the request.",
@@ -73,7 +85,7 @@ public class TextUtils {
     sendMessage(pnumber, body);
   }
 
-  public static void sendUserUpdateMessage(String pnumber, String fName, boolean approved) {
+  public void sendUserUpdateMessage(String pnumber, String fName, boolean approved) {
     String body =
         String.format(
             "%s %s! your request for %s has been %s ",
