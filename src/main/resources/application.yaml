@@ -5,8 +5,13 @@ spring:
   jpa:
     show-sql: true
   datasource:
-    url: "jdbc:postgresql://localhost:5432/"
-    username: "myusername"
-    password: "mypassword"
+    url: "jdbc:postgresql://localhost:${DB_PORT}/${DB_NAME}"
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 server:
   port: 82
+
+twilio:
+  account_sid: ${TWILIO_ACCOUNT_SID}
+  service_sid: ${TWILIO_SERVICE_SID}
+  token: ${TWILIO_TOKEN}

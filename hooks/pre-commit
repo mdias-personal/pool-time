@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+spotless_file="hooks/spotless.sh"
+
+source $spotless_file 
